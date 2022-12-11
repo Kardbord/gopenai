@@ -5,8 +5,6 @@
 package moderations
 
 import (
-	"encoding/json"
-	"errors"
 	"net/http"
 
 	openaicommon "github.com/TannerKvarfordt/gopenai/openai-common"
@@ -82,25 +80,10 @@ type Response struct {
 }
 
 func MakeModerationRequest(request *Request, organizationID *string) (*Response, error) {
-	if request == nil {
-		return nil, errors.New("nil Request provided")
-	}
-
-	reqData, err := json.Marshal(request)
+	response := new(Response)
+	err := openaicommon.MakeRequest(request, response, Endpoint, http.MethodPost, organizationID)
 	if err != nil {
 		return nil, err
 	}
-
-	respBody, err := openaicommon.MakeRequest(reqData, Endpoint, http.MethodPost, organizationID)
-	if err != nil {
-		return nil, err
-	}
-
-	resp := Response{}
-	err = json.Unmarshal(respBody, &resp)
-	if err != nil {
-		return nil, err
-	}
-
-	return &resp, err
+	return response, nil
 }
