@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
 set -e
+
+pushd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null
+
+./build-examples.sh
+
+pushd .. >/dev/null
 go fmt ./...
 go test ./...
 go build ./...
