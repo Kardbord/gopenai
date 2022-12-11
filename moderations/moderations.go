@@ -11,7 +11,7 @@ import (
 )
 
 // The moderations API endpoint.
-const Endpoint = openaicommon.BaseURL + "/moderations"
+const Endpoint = openaicommon.BaseURL + "moderations"
 
 const (
 	// The name of the stable moderation model.
@@ -77,9 +77,11 @@ type Response struct {
 			ViolenceGraphic float64 `json:"violence/graphic"`
 		} `json:"category_scores"`
 	} `json:"results"`
+
+	Error openaicommon.ResponseError `json:"error"`
 }
 
-func MakeModerationRequest(request *Request, organizationID *string) (*Response, error) {
+func MakeRequest(request *Request, organizationID *string) (*Response, error) {
 	response := new(Response)
 	err := openaicommon.MakeRequest(request, response, Endpoint, http.MethodPost, organizationID)
 	if err != nil {

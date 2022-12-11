@@ -19,18 +19,12 @@ const (
 	BaseURL = "https://api.openai.com/" + APIVersion + "/"
 )
 
-func setRequestHeaders(req *http.Request, organizationID *string) {
-	if req == nil {
-		return
-	}
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set(auth.AuthHeaderKey, auth.AuthHeaderPrefix+auth.APIKey())
-
-	if organizationID != nil {
-		req.Header.Set(auth.OrgHeaderKey, *organizationID)
-	} else if len(auth.DefaultOrganizationID()) != 0 {
-		req.Header.Set(auth.OrgHeaderKey, auth.DefaultOrganizationID())
-	}
+// A common error structure included in OpenAI API response bodies.
+type ResponseError struct {
+	// The error message.
+	Message string `json:"message"`
+	// The error type.
+	Type string `json:"type"`
 }
 
 // Send a request to the given OpenAI endpoint, and store the response in the provided response object.
@@ -83,4 +77,18 @@ func MakeRequest[RequestT any, ResponseT any](request *RequestT, response *Respo
 	}
 
 	return nil
+}
+
+func setRequestHeaders(req *http.Request, organizationID *string) {
+	if req == nil {
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set(auth.AuthHeaderKey, auth.AuthHeaderPrefix+auth.APIKey())
+
+	if organizationID != nil {
+		req.Header.Set(auth.OrgHeaderKey, *organizationID)
+	} else if len(auth.DefaultOrganizationID()) != 0 {
+		req.Header.Set(auth.OrgHeaderKey, auth.DefaultOrganizationID())
+	}
 }
