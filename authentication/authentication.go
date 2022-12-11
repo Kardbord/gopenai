@@ -7,6 +7,12 @@ import (
 	"sync"
 )
 
+const (
+	AuthHeaderKey    = "Authorization"
+	AuthHeaderPrefix = "Bearer "
+	OrgHeaderKey     = "OpenAI-Organization"
+)
+
 var (
 	apiKey   = ""
 	keyMutex = sync.RWMutex{}
