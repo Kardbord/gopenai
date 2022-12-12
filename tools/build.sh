@@ -4,7 +4,7 @@ set -e
 
 pushd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null
 
-./build-examples.sh
+./examples-build.sh
 
 pushd .. >/dev/null
 go fmt ./...

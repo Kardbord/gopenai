@@ -30,7 +30,7 @@ jobs:
         run: go build -v ./...
 
       - name: Build Examples
-        run: ./tools/build-examples.sh
+        run: ./tools/examples-build.sh
 
       - name: Test
         run: go test -timeout 300s -v ./...
