@@ -41,7 +41,7 @@ func MakeRequest[RequestT any, ResponseT any](request *RequestT, response *Respo
 	if request != nil {
 		jsonData, err2 := json.Marshal(request)
 		if err2 != nil {
-			return err
+			return err2
 		}
 		req, err = http.NewRequest(method, endpoint, bytes.NewBuffer(jsonData))
 	} else {
