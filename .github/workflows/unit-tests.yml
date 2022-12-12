@@ -31,6 +31,9 @@ jobs:
 
       - name: Build Examples
         run: ./tools/examples-build.sh
+        shell: bash
 
       - name: Test
         run: go test -timeout 300s -v ./...
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
