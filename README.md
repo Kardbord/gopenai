@@ -3,7 +3,7 @@
 [![Unit Tests](https://github.com/TannerKvarfordt/gopenai/actions/workflows/unit-tests.yml/badge.svg?branch=main)](https://github.com/TannerKvarfordt/gopenai/actions/workflows/unit-tests.yml)
 [![CodeQL](https://github.com/TannerKvarfordt/gopenai/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/TannerKvarfordt/gopenai/actions/workflows/codeql.yml)
 
-Unofficial, community maintained, Go (Golang) bindings for the [OpenAI API](https://beta.openai.com/docs/api-reference/introduction).
+Go (Golang) bindings for the [OpenAI API](https://beta.openai.com/docs/api-reference/introduction). This library is community maintained and unofficial.
 
 * [Completions](./completions/README.md)
 * [Edits](./edits/README.md)
@@ -13,6 +13,10 @@ Unofficial, community maintained, Go (Golang) bindings for the [OpenAI API](http
 * [Images](./images/README.md)
 * [Models](./models/README.md)
 * [Moderations](./moderations/README.md)
+
+## Usage Policies
+
+If you use this library, you must conform to Open AI's [Usage Policies](https://beta.openai.com/docs/usage-policies).
 
 ## Other Language Bindings
 
