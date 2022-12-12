@@ -1,5 +1,5 @@
-// Package openaicommon contains common API structures and helper functions, not specific to an endpoint or model.
-package openaicommon
+// Package common contains common API structures and helper functions, not specific to an endpoint or model.
+package common
 
 import (
 	"bytes"

@@ -7,11 +7,11 @@ package moderations
 import (
 	"net/http"
 
-	openaicommon "github.com/TannerKvarfordt/gopenai/openai-common"
+	"github.com/TannerKvarfordt/gopenai/common"
 )
 
 // The moderations API endpoint.
-const Endpoint = openaicommon.BaseURL + "moderations"
+const Endpoint = common.BaseURL + "moderations"
 
 const (
 	// The name of the stable moderation model.
@@ -49,11 +49,11 @@ type Response struct {
 		CategoryScores map[string]float64 `json:"category_scores"`
 	} `json:"results"`
 
-	Error openaicommon.ResponseError `json:"error"`
+	Error common.ResponseError `json:"error"`
 }
 
 func MakeRequest(request *Request, organizationID *string) (*Response, error) {
 	response := new(Response)
-	err := openaicommon.MakeRequest(request, response, Endpoint, http.MethodPost, organizationID)
+	err := common.MakeRequest(request, response, Endpoint, http.MethodPost, organizationID)
 	return response, err
 }

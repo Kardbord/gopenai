@@ -11,20 +11,20 @@ package models
 import (
 	"net/http"
 
-	openaicommon "github.com/TannerKvarfordt/gopenai/openai-common"
+	"github.com/TannerKvarfordt/gopenai/common"
 )
 
 // The moderations API endpoint.
-const Endpoint = openaicommon.BaseURL + "models"
+const Endpoint = common.BaseURL + "models"
 
 // Response structure for a Retrieve Model request.
 type ModelResponse struct {
-	ID      string                     `json:"id"`
-	Created uint64                     `json:"created"`
-	OwnedBy string                     `json:"owned_by"`
-	Root    string                     `json:"root"`
-	Parent  *string                    `json:"parent"`
-	Error   openaicommon.ResponseError `json:"error"`
+	ID      string               `json:"id"`
+	Created uint64               `json:"created"`
+	OwnedBy string               `json:"owned_by"`
+	Root    string               `json:"root"`
+	Parent  *string              `json:"parent"`
+	Error   common.ResponseError `json:"error"`
 
 	// The values of each permission object (aka, map)
 	// in this list are non-homogeneous. Generally,
@@ -35,20 +35,20 @@ type ModelResponse struct {
 
 // Response structure for a List Models request.
 type ListModelsResponse struct {
-	Data  []ModelResponse            `json:"data"`
-	Error openaicommon.ResponseError `json:"error"`
+	Data  []ModelResponse      `json:"data"`
+	Error common.ResponseError `json:"error"`
 }
 
 // Lists the currently available models, and provides basic information about each one such as the owner and availability.
 func MakeListModelsRequest(organizationID *string) (*ListModelsResponse, error) {
 	response := new(ListModelsResponse)
-	err := openaicommon.MakeRequest[any](nil, response, Endpoint, http.MethodGet, organizationID)
+	err := common.MakeRequest[any](nil, response, Endpoint, http.MethodGet, organizationID)
 	return response, err
 }
 
 // Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
 func MakeRetrieveModelRequest(model string, organizationID *string) (*ModelResponse, error) {
 	response := new(ModelResponse)
-	err := openaicommon.MakeRequest[any](nil, response, Endpoint+"/"+model, http.MethodGet, organizationID)
+	err := common.MakeRequest[any](nil, response, Endpoint+"/"+model, http.MethodGet, organizationID)
 	return response, err
 }
