@@ -32,19 +32,21 @@ type ResponseError struct {
 // The organizationID parameter is optional. If provided, it will be included in the request header.
 // If not provided, the authorization.DefaultOrganizationID will be used, if it is set.
 func MakeRequest[RequestT any, ResponseT any](request *RequestT, response *ResponseT, endpoint, method string, organizationID *string) error {
-	if request == nil {
-		return errors.New("nil request provided")
-	}
 	if response == nil {
 		return errors.New("nil response destination provided")
 	}
 
-	jsonData, err := json.Marshal(request)
-	if err != nil {
-		return err
+	var req *http.Request = nil
+	var err error = nil
+	if request != nil {
+		jsonData, err2 := json.Marshal(request)
+		if err2 != nil {
+			return err
+		}
+		req, err = http.NewRequest(method, endpoint, bytes.NewBuffer(jsonData))
+	} else {
+		req, err = http.NewRequest(method, endpoint, nil)
 	}
-
-	req, err := http.NewRequest(method, endpoint, bytes.NewBuffer(jsonData))
 	if err != nil {
 		return err
 	}

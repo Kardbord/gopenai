@@ -16,6 +16,7 @@
 
 # Environment
 .env
+./**/.env
 examples/**/.env
 
 # IDE

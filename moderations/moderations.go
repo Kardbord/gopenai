@@ -55,8 +55,5 @@ type Response struct {
 func MakeRequest(request *Request, organizationID *string) (*Response, error) {
 	response := new(Response)
 	err := openaicommon.MakeRequest(request, response, Endpoint, http.MethodPost, organizationID)
-	if err != nil {
-		return nil, err
-	}
-	return response, nil
+	return response, err
 }
