@@ -2,7 +2,7 @@
 
 set -e
 
-pushd "$(dirname "${BASH_SOURCE[0]}")/../examples"
+pushd "$(dirname "${BASH_SOURCE[0]}")/../examples" >/dev/null
 
 for d in */; do
   pushd "${d}" >/dev/null
