@@ -130,7 +130,5 @@ type Response struct {
 
 // Make a completions request.
 func MakeRequest(request *Request, organizationID *string) (*Response, error) {
-	response := new(Response)
-	err := common.MakeRequest(request, response, Endpoint, http.MethodPost, organizationID)
-	return response, err
+	return common.MakeRequest[Request, Response](request, Endpoint, http.MethodPost, organizationID)
 }

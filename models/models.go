@@ -41,14 +41,10 @@ type ListModelsResponse struct {
 
 // Lists the currently available models, and provides basic information about each one such as the owner and availability.
 func MakeListModelsRequest(organizationID *string) (*ListModelsResponse, error) {
-	response := new(ListModelsResponse)
-	err := common.MakeRequest[any](nil, response, Endpoint, http.MethodGet, organizationID)
-	return response, err
+	return common.MakeRequest[any, ListModelsResponse](nil, Endpoint, http.MethodGet, organizationID)
 }
 
 // Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
 func MakeRetrieveModelRequest(model string, organizationID *string) (*ModelResponse, error) {
-	response := new(ModelResponse)
-	err := common.MakeRequest[any](nil, response, Endpoint+"/"+model, http.MethodGet, organizationID)
-	return response, err
+	return common.MakeRequest[any, ModelResponse](nil, Endpoint+"/"+model, http.MethodGet, organizationID)
 }

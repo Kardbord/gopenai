@@ -38,54 +38,51 @@ type ResponseUsage struct {
 // The method parameter should be an HTTP method, such as GET or POST.
 // The organizationID parameter is optional. If provided, it will be included in the request header.
 // If not provided, the authorization.DefaultOrganizationID will be used, if it is set.
-func MakeRequest[RequestT any, ResponseT any](request *RequestT, response *ResponseT, endpoint, method string, organizationID *string) error {
-	if response == nil {
-		return errors.New("nil response destination provided")
-	}
-
+func MakeRequest[RequestT any, ResponseT any](request *RequestT, endpoint, method string, organizationID *string) (*ResponseT, error) {
 	var req *http.Request = nil
 	var err error = nil
 	if request != nil {
 		jsonData, err2 := json.Marshal(request)
 		if err2 != nil {
-			return err2
+			return nil, err2
 		}
 		req, err = http.NewRequest(method, endpoint, bytes.NewBuffer(jsonData))
 	} else {
 		req, err = http.NewRequest(method, endpoint, nil)
 	}
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if req == nil {
-		return errors.New("nil request created")
+		return nil, errors.New("nil request created")
 	}
 
 	setRequestHeaders(req, organizationID)
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if resp == nil {
-		return errors.New("nil response received")
+		return nil, errors.New("nil response received")
 	}
 	defer resp.Body.Close()
 
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if respBody == nil {
-		return errors.New("unable to parse response body")
+		return nil, errors.New("unable to parse response body")
 	}
 
-	err = json.Unmarshal(respBody, &response)
+	response := new(ResponseT)
+	err = json.Unmarshal(respBody, response)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return response, nil
 }
 
 func setRequestHeaders(req *http.Request, organizationID *string) {
