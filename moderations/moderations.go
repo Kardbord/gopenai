@@ -49,7 +49,7 @@ type Response struct {
 		CategoryScores map[string]float64 `json:"category_scores"`
 	} `json:"results"`
 
-	Error common.ResponseError `json:"error"`
+	Error *common.ResponseError `json:"error,omitempty"`
 }
 
 func MakeRequest(request *Request, organizationID *string) (*Response, error) {

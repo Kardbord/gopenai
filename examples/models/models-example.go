@@ -27,7 +27,7 @@ func main() {
 		fmt.Println("Nil response returned.")
 		return
 	}
-	if listresp.Error.Type != "" {
+	if listresp.Error != nil {
 		fmt.Printf("Error: %s -> %s\n", listresp.Error.Type, listresp.Error.Message)
 		return
 	}

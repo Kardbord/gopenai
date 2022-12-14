@@ -27,4 +27,7 @@ func TestModerations(t *testing.T) {
 	if resp == nil {
 		t.Fatal("nil response received")
 	}
+	if resp.Error != nil {
+		t.Fatalf("%s -> %s", resp.Error.Type, resp.Error.Message)
+	}
 }

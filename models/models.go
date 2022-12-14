@@ -14,17 +14,17 @@ import (
 	"github.com/TannerKvarfordt/gopenai/common"
 )
 
-// The moderations API endpoint.
+// The models API endpoint.
 const Endpoint = common.BaseURL + "models"
 
 // Response structure for a Retrieve Model request.
 type ModelResponse struct {
-	ID      string               `json:"id"`
-	Created uint64               `json:"created"`
-	OwnedBy string               `json:"owned_by"`
-	Root    string               `json:"root"`
-	Parent  *string              `json:"parent"`
-	Error   common.ResponseError `json:"error"`
+	ID      string                `json:"id"`
+	Created uint64                `json:"created"`
+	OwnedBy string                `json:"owned_by"`
+	Root    string                `json:"root"`
+	Parent  *string               `json:"parent"`
+	Error   *common.ResponseError `json:"error,omitempty"`
 
 	// The values of each permission object (aka, map)
 	// in this list are non-homogeneous. Generally,
@@ -35,8 +35,8 @@ type ModelResponse struct {
 
 // Response structure for a List Models request.
 type ListModelsResponse struct {
-	Data  []ModelResponse      `json:"data"`
-	Error common.ResponseError `json:"error"`
+	Data  []ModelResponse       `json:"data"`
+	Error *common.ResponseError `json:"error,omitempty"`
 }
 
 // Lists the currently available models, and provides basic information about each one such as the owner and availability.

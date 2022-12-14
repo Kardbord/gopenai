@@ -24,7 +24,7 @@ func TestModels(t *testing.T) {
 	if listresp == nil {
 		t.Fatal("Nil response returned.")
 	}
-	if listresp.Error.Type != "" {
+	if listresp.Error != nil {
 		t.Fatalf("Error: %s -> %s\n", listresp.Error.Type, listresp.Error.Message)
 	}
 	if len(listresp.Data) < 1 {

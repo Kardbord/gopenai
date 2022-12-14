@@ -27,6 +27,13 @@ type ResponseError struct {
 	Type string `json:"type"`
 }
 
+// A common usage information structure included in OpenAI API response bodies.
+type ResponseUsage struct {
+	PromptTokens     uint64 `json:"prompt_tokens"`
+	CompletionTokens uint64 `json:"completion_tokens"`
+	TotalTokens      uint64 `json:"total_tokens"`
+}
+
 // Send a request to the given OpenAI endpoint, and store the response in the provided response object.
 // The method parameter should be an HTTP method, such as GET or POST.
 // The organizationID parameter is optional. If provided, it will be included in the request header.
