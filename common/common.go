@@ -34,7 +34,7 @@ type ResponseUsage struct {
 	TotalTokens      uint64 `json:"total_tokens"`
 }
 
-// Send a request to the given OpenAI endpoint, and store the response in the provided response object.
+// Send a request to the given OpenAI endpoint.
 // The method parameter should be an HTTP method, such as GET or POST.
 // The organizationID parameter is optional. If provided, it will be included in the request header.
 // If not provided, the authorization.DefaultOrganizationID will be used, if it is set.

@@ -37,7 +37,7 @@ func main() {
 		return
 	}
 	if resp.Error != nil {
-		fmt.Printf("%s -> %s", resp.Error.Type, resp.Error.Message)
+		fmt.Printf("%s -> %s\n", resp.Error.Type, resp.Error.Message)
 		return
 	}
 	if len(resp.Choices) < 1 {
@@ -45,5 +45,5 @@ func main() {
 		return
 	}
 
-	fmt.Printf("Prompt: %s\nResponse: %s", prompt, resp.Choices[0].Text)
+	fmt.Printf("Prompt: %s\nResponse: %s\n", prompt, resp.Choices[0].Text)
 }
