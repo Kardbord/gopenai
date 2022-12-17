@@ -22,4 +22,5 @@ If you use this library, you must conform to Open AI's [Usage Policies](https://
 
 ## Other Language Bindings
 
-See [Open AI's Website](https://beta.openai.com/docs/libraries/libraries).
+For another great Go implementation, see [sashabaranov/go-gpt3](https://github.com/sashabaranov/go-gpt3).
+For other languages, see [Open AI's Website](https://beta.openai.com/docs/libraries/libraries).
