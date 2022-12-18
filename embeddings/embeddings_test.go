@@ -26,15 +26,6 @@ func TestEmbeddings(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if resp == nil {
-		t.Fatal("nil response received")
-	}
-	if resp.Error != nil {
-		t.Fatalf("%s -> %s\n", resp.Error.Type, resp.Error.Message)
-	}
-	if len(resp.Data) < 1 {
-		t.Fatal("No data returned in response")
-	}
 	if len(resp.Data[0].Embedding) < 1 {
 		t.Fatal("Empty embedding returned in response")
 	}

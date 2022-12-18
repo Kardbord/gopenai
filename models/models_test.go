@@ -21,12 +21,6 @@ func TestModels(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if listresp == nil {
-		t.Fatal("Nil response returned.")
-	}
-	if listresp.Error != nil {
-		t.Fatalf("Error: %s -> %s\n", listresp.Error.Type, listresp.Error.Message)
-	}
 	if len(listresp.Data) < 1 {
 		t.Fatal("No model information retrieved")
 	}

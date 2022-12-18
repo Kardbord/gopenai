@@ -27,18 +27,6 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	if resp == nil {
-		fmt.Println("nil response received")
-		return
-	}
-	if resp.Error != nil {
-		fmt.Printf("%s -> %s\n", resp.Error.Type, resp.Error.Message)
-		return
-	}
-	if len(resp.Data) < 1 {
-		fmt.Println("No data returned in response")
-		return
-	}
 
 	fmt.Printf("Input: %s\n", input)
 	fmt.Printf("Resulted in embedding size: %d\n", len(resp.Data[0].Embedding))

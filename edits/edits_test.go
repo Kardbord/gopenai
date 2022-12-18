@@ -25,12 +25,6 @@ func TestEdits(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if resp == nil {
-		t.Fatal("nil response received")
-	}
-	if resp.Error != nil {
-		t.Fatalf("%s -> %s\n", resp.Error.Type, resp.Error.Message)
-	}
 	if len(resp.Choices) < 1 {
 		t.Fatal("No choices received")
 	}

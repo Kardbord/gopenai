@@ -27,18 +27,6 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	if resp == nil {
-		fmt.Println("nil response received")
-		return
-	}
-	if resp.Error != nil {
-		fmt.Printf("%s -> %s\n", resp.Error.Type, resp.Error.Message)
-		return
-	}
-	if len(resp.Choices) < 1 {
-		fmt.Println("No choices received")
-		return
-	}
 
 	fmt.Printf("Input=%s\n", input)
 	fmt.Printf("Result=%s\n", resp.Choices[0].Text)

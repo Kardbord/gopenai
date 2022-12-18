@@ -28,10 +28,6 @@ func request(input string) {
 		fmt.Printf("Error: %v\n", err)
 		return
 	}
-	if resp == nil {
-		fmt.Printf("Error: nil response\n")
-		return
-	}
 
 	jsonResp, err := json.MarshalIndent(resp, "", "  ")
 	if err != nil {

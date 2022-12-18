@@ -7,6 +7,7 @@
 package embeddings
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/TannerKvarfordt/gopenai/common"
@@ -45,5 +46,18 @@ type Response struct {
 }
 
 func MakeRequest(request *Request, organizationID *string) (*Response, error) {
-	return common.MakeRequest[Request, Response](request, Endpoint, http.MethodPost, organizationID)
+	r, err := common.MakeRequest[Request, Response](request, Endpoint, http.MethodPost, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	if len(r.Data) == 0 {
+		return r, errors.New("no data in response")
+	}
+	return r, nil
 }

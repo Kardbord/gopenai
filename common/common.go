@@ -32,6 +32,10 @@ type ResponseError struct {
 	Type string `json:"type"`
 }
 
+func (e *ResponseError) Error() string {
+	return fmt.Sprintf("%s -> %s", e.Type, e.Message)
+}
+
 // A common usage information structure included in OpenAI API response bodies.
 type ResponseUsage struct {
 	PromptTokens     uint64 `json:"prompt_tokens"`
