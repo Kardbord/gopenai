@@ -49,9 +49,6 @@ func MakeListRequest(organizationID *string) (*ListResponse, error) {
 	if r.Error != nil {
 		return r, r.Error
 	}
-	if len(r.Data) == 0 {
-		return r, errors.New("no data in response")
-	}
 	return r, nil
 }
 
