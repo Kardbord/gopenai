@@ -9,8 +9,8 @@ The links below lead to examples of how to use each library package.
 
 - [x] [Completions](./completions/README.md)
 - [x] [Edits](./edits/README.md)
-- [ ] [Embeddings](./embeddings/README.md)
-- [ ] [Files](./files/README.md)
+- [x] [Embeddings](./embeddings/README.md)
+- [x] [Files](./files/README.md)
 - [ ] [Fine-Tunes](./finetunes/README.md)
 - [ ] [Images](./images/README.md)
 - [x] [Models](./models/README.md)
