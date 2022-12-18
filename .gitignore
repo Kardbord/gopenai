@@ -31,3 +31,4 @@ examples/finetunes/finetunes
 examples/images/images
 examples/models/models
 examples/moderations/moderations
+dist/

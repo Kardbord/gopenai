@@ -113,7 +113,7 @@ func TestFiles(t *testing.T) {
 		return
 	}
 
-	const sleepDuration = 5
+	const sleepDuration = 30
 	for i := 0; i < sleepDuration; i++ {
 		fmt.Printf("Sleeping to allow the file to process %d/%ds\n", i, sleepDuration)
 		time.Sleep(time.Second)
