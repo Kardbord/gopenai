@@ -56,9 +56,41 @@ func MakeRequest[RequestT any, ResponseT any](request *RequestT, endpoint, metho
 	if req == nil {
 		return nil, errors.New("nil request created")
 	}
+	SetRequestHeaders(req, "application/json", organizationID)
+	return makeRequest[ResponseT](req)
+}
 
-	setRequestHeaders(req, organizationID)
+func MakeRequestWithForm[ResponseT any](form *bytes.Buffer, endpoint, method, contentType string, organizationID *string) (*ResponseT, error) {
+	req, err := http.NewRequest(method, endpoint, form)
+	if err != nil {
+		return nil, err
+	}
+	if req == nil {
+		return nil, errors.New("nil request created")
+	}
 
+	SetRequestHeaders(req, contentType, organizationID)
+	return makeRequest[ResponseT](req)
+}
+
+func SetRequestHeaders(req *http.Request, contentType string, organizationID *string) {
+	if req == nil {
+		return
+	}
+	req.Header.Set("Content-Type", contentType)
+	req.Header.Set(auth.AuthHeaderKey, auth.AuthHeaderPrefix+auth.APIKey())
+
+	if organizationID != nil {
+		req.Header.Set(auth.OrgHeaderKey, *organizationID)
+	} else if len(auth.DefaultOrganizationID()) != 0 {
+		req.Header.Set(auth.OrgHeaderKey, auth.DefaultOrganizationID())
+	}
+}
+
+func makeRequest[ResponseT any](req *http.Request) (*ResponseT, error) {
+	if req == nil {
+		return nil, errors.New("nil request provided to makeRequest helper - this is a bug in the library")
+	}
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
@@ -83,18 +115,4 @@ func MakeRequest[RequestT any, ResponseT any](request *RequestT, endpoint, metho
 	}
 
 	return response, nil
-}
-
-func setRequestHeaders(req *http.Request, organizationID *string) {
-	if req == nil {
-		return
-	}
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set(auth.AuthHeaderKey, auth.AuthHeaderPrefix+auth.APIKey())
-
-	if organizationID != nil {
-		req.Header.Set(auth.OrgHeaderKey, *organizationID)
-	} else if len(auth.DefaultOrganizationID()) != 0 {
-		req.Header.Set(auth.OrgHeaderKey, auth.DefaultOrganizationID())
-	}
 }
