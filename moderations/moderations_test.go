@@ -18,7 +18,7 @@ func init() {
 
 func TestModerations(t *testing.T) {
 	resp, err := moderations.MakeRequest(&moderations.Request{
-		Input: "So long, and thanks for all the fish.",
+		Input: []string{"So long, and thanks for all the fish."},
 		Model: moderations.ModelStable,
 	}, nil)
 	if err != nil {

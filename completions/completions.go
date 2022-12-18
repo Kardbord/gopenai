@@ -132,3 +132,6 @@ type Response struct {
 func MakeRequest(request *Request, organizationID *string) (*Response, error) {
 	return common.MakeRequest[Request, Response](request, Endpoint, http.MethodPost, organizationID)
 }
+
+//func MakeModeratedRequest(request *Request, organizationID *string) (*Response, []moderations.Response, error) {
+//}

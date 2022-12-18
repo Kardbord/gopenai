@@ -24,7 +24,7 @@ const (
 // The request structure for moderation requests.
 type Request struct {
 	// The input text to classify.
-	Input string `json:"input"`
+	Input []string `json:"input"`
 
 	// Two content moderations models are available: text-moderation-stable and text-moderation-latest.
 	// The default is text-moderation-latest which will be automatically upgraded over time.
