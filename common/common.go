@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 
 	auth "github.com/TannerKvarfordt/gopenai/authentication"
 )
@@ -152,6 +153,19 @@ func CreateFormFile(fieldname, filename, filepath string, writer *multipart.Writ
 	defer fdata.Close()
 
 	_, err = io.Copy(file, fdata)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func CreateFormField[DataT any](fieldname string, data DataT, writer *multipart.Writer) error {
+	n, err := writer.CreateFormField(fieldname)
+	if err != nil {
+		return err
+	}
+	_, err = io.Copy(n, strings.NewReader(fmt.Sprintf("%v", data)))
 	if err != nil {
 		return err
 	}

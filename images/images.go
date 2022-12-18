@@ -10,11 +10,8 @@ package images
 import (
 	"bytes"
 	"errors"
-	"fmt"
-	"io"
 	"mime/multipart"
 	"net/http"
-	"strings"
 
 	"github.com/TannerKvarfordt/gopenai/common"
 )
@@ -115,47 +112,27 @@ func MakeEditRequest(request *EditRequest, organizationID *string) (*Response, e
 	buf := new(bytes.Buffer)
 	writer := multipart.NewWriter(buf)
 
-	prompt, err := writer.CreateFormField("prompt")
-	if err != nil {
-		return nil, err
-	}
-	_, err = io.Copy(prompt, strings.NewReader(request.Prompt))
+	err := common.CreateFormField("prompt", request.Prompt, writer)
 	if err != nil {
 		return nil, err
 	}
 
-	n, err := writer.CreateFormField("n")
-	if err != nil {
-		return nil, err
-	}
-	_, err = io.Copy(n, strings.NewReader(fmt.Sprintf("%d", request.N)))
+	err = common.CreateFormField("n", request.N, writer)
 	if err != nil {
 		return nil, err
 	}
 
-	size, err := writer.CreateFormField("size")
-	if err != nil {
-		return nil, err
-	}
-	_, err = io.Copy(size, strings.NewReader(request.Size))
+	err = common.CreateFormField("size", request.Size, writer)
 	if err != nil {
 		return nil, err
 	}
 
-	respFmt, err := writer.CreateFormField("response_format")
-	if err != nil {
-		return nil, err
-	}
-	_, err = io.Copy(respFmt, strings.NewReader(request.ResponseFormat))
+	err = common.CreateFormField("response_format", request.ResponseFormat, writer)
 	if err != nil {
 		return nil, err
 	}
 
-	user, err := writer.CreateFormField("user")
-	if err != nil {
-		return nil, err
-	}
-	_, err = io.Copy(user, strings.NewReader(request.User))
+	err = common.CreateFormField("user", request.User, writer)
 	if err != nil {
 		return nil, err
 	}
@@ -205,38 +182,22 @@ func MakeVariationRequest(request *VariationRequest, organizationID *string) (*R
 	buf := new(bytes.Buffer)
 	writer := multipart.NewWriter(buf)
 
-	n, err := writer.CreateFormField("n")
-	if err != nil {
-		return nil, err
-	}
-	_, err = io.Copy(n, strings.NewReader(fmt.Sprintf("%d", request.N)))
+	err := common.CreateFormField("n", request.N, writer)
 	if err != nil {
 		return nil, err
 	}
 
-	size, err := writer.CreateFormField("size")
-	if err != nil {
-		return nil, err
-	}
-	_, err = io.Copy(size, strings.NewReader(request.Size))
+	err = common.CreateFormField("size", request.Size, writer)
 	if err != nil {
 		return nil, err
 	}
 
-	respFmt, err := writer.CreateFormField("response_format")
-	if err != nil {
-		return nil, err
-	}
-	_, err = io.Copy(respFmt, strings.NewReader(request.ResponseFormat))
+	err = common.CreateFormField("response_format", request.ResponseFormat, writer)
 	if err != nil {
 		return nil, err
 	}
 
-	user, err := writer.CreateFormField("user")
-	if err != nil {
-		return nil, err
-	}
-	_, err = io.Copy(user, strings.NewReader(request.User))
+	err = common.CreateFormField("user", request.User, writer)
 	if err != nil {
 		return nil, err
 	}

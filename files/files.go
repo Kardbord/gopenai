@@ -14,7 +14,6 @@ import (
 	"mime/multipart"
 	"net/http"
 	"os"
-	"strings"
 
 	"github.com/TannerKvarfordt/gopenai/common"
 )
@@ -72,12 +71,7 @@ func MakeUploadRequest(request *UploadRequest, organizationID *string) (*Uploade
 	buf := new(bytes.Buffer)
 	writer := multipart.NewWriter(buf)
 
-	purpose, err := writer.CreateFormField("purpose")
-	if err != nil {
-		return nil, err
-	}
-
-	_, err = io.Copy(purpose, strings.NewReader(request.Purpose))
+	err := common.CreateFormField("purpose", request.Purpose, writer)
 	if err != nil {
 		return nil, err
 	}
