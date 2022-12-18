@@ -13,3 +13,22 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# Environment
+.env
+./**/.env
+examples/**/.env
+
+# IDE
+.vscode/
+
+# Example binaries
+examples/completions/completions
+examples/edits/edits
+examples/embeddings/embeddings
+examples/files/files
+examples/finetunes/finetunes
+examples/images/images
+examples/models/models
+examples/moderations/moderations
+dist/
