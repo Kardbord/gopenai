@@ -14,7 +14,6 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
-	"os"
 	"strings"
 
 	"github.com/TannerKvarfordt/gopenai/common"
@@ -161,30 +160,12 @@ func MakeEditRequest(request *EditRequest, organizationID *string) (*Response, e
 		return nil, err
 	}
 
-	image, err := writer.CreateFormFile("image", request.ImageName)
-	if err != nil {
-		return nil, err
-	}
-	imgdata, err := os.Open(request.Image)
-	if err != nil {
-		return nil, err
-	}
-	defer imgdata.Close()
-	_, err = io.Copy(image, imgdata)
+	err = common.CreateFormFile("image", request.ImageName, request.Image, writer)
 	if err != nil {
 		return nil, err
 	}
 
-	mask, err := writer.CreateFormFile("mask", request.MaskName)
-	if err != nil {
-		return nil, err
-	}
-	maskdata, err := os.Open(request.Mask)
-	if err != nil {
-		return nil, err
-	}
-	defer maskdata.Close()
-	_, err = io.Copy(mask, maskdata)
+	err = common.CreateFormFile("mask", request.MaskName, request.Mask, writer)
 	if err != nil {
 		return nil, err
 	}
@@ -260,16 +241,7 @@ func MakeVariationRequest(request *VariationRequest, organizationID *string) (*R
 		return nil, err
 	}
 
-	image, err := writer.CreateFormFile("image", request.ImageName)
-	if err != nil {
-		return nil, err
-	}
-	imgdata, err := os.Open(request.Image)
-	if err != nil {
-		return nil, err
-	}
-	defer imgdata.Close()
-	_, err = io.Copy(image, imgdata)
+	err = common.CreateFormFile("image", request.ImageName, request.Image, writer)
 	if err != nil {
 		return nil, err
 	}

@@ -82,18 +82,7 @@ func MakeUploadRequest(request *UploadRequest, organizationID *string) (*Uploade
 		return nil, err
 	}
 
-	file, err := writer.CreateFormFile("file", request.Filename)
-	if err != nil {
-		return nil, err
-	}
-
-	fdata, err := os.Open(request.Filepath)
-	if err != nil {
-		return nil, err
-	}
-	defer fdata.Close()
-
-	_, err = io.Copy(file, fdata)
+	err = common.CreateFormFile("file", request.Filename, request.Filepath, writer)
 	if err != nil {
 		return nil, err
 	}

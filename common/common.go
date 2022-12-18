@@ -5,8 +5,12 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
+	"mime/multipart"
 	"net/http"
+	"net/url"
+	"os"
 
 	auth "github.com/TannerKvarfordt/gopenai/authentication"
 )
@@ -115,4 +119,42 @@ func makeRequest[ResponseT any](req *http.Request) (*ResponseT, error) {
 	}
 
 	return response, nil
+}
+
+func IsUrl(str string) bool {
+	u, err := url.Parse(str)
+	return err == nil && u.Scheme != "" && u.Host != ""
+}
+
+func CreateFormFile(fieldname, filename, filepath string, writer *multipart.Writer) error {
+	file, err := writer.CreateFormFile(fieldname, filename)
+	if err != nil {
+		return err
+	}
+
+	var fdata io.ReadCloser
+	if IsUrl(filepath) {
+		resp, err := http.Get(filepath)
+		if err != nil {
+			return err
+		}
+		defer resp.Body.Close()
+		if resp.StatusCode != http.StatusOK {
+			return fmt.Errorf("failed to retrieve file from url, status code: %d", resp.StatusCode)
+		}
+		fdata = resp.Body
+	} else {
+		fdata, err = os.Open(filepath)
+		if err != nil {
+			return err
+		}
+	}
+	defer fdata.Close()
+
+	_, err = io.Copy(file, fdata)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
