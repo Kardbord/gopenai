@@ -69,3 +69,29 @@ func MakeRequest(request *Request, organizationID *string) (*Response, error) {
 	}
 	return r, nil
 }
+
+// An error type to be returned if an input was flagged by the moderations endpoint.
+type ModerationFlagError struct{}
+
+func (e *ModerationFlagError) Error() string {
+	return "one or more request inputs were flagged by the moderations endpoint"
+}
+func NewModerationFlagError() (e *ModerationFlagError) {
+	return &ModerationFlagError{}
+}
+
+// Same as MakeRequest, except returns a ModerationFlagError if one or more request inputs were flagged.
+func MakeModeratedRequest(request *Request, organizationID *string) (*Response, error) {
+	r, err := MakeRequest(request, organizationID)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, res := range r.Results {
+		if res.Flagged {
+			return r, NewModerationFlagError()
+		}
+	}
+
+	return r, nil
+}

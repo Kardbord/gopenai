@@ -14,6 +14,7 @@ import (
 	"net/http"
 
 	"github.com/TannerKvarfordt/gopenai/common"
+	"github.com/TannerKvarfordt/gopenai/moderations"
 )
 
 const (
@@ -78,6 +79,25 @@ func MakeCreationRequest(request *CreationRequest, organizationID *string) (*Res
 		return r, errors.New("no data in response")
 	}
 	return r, nil
+}
+
+// Runs request inputs through the moderations endpoint prior to making the request.
+// Returns a moderations.ModerationFlagError prior to making the request if the
+// inputs are flagged by the moderations endpoint.
+func MakeModeratedCreationRequest(request *CreationRequest, organizationID *string) (*Response, *moderations.Response, error) {
+	modr, err := moderations.MakeModeratedRequest(&moderations.Request{
+		Input: []string{request.Prompt},
+		Model: moderations.ModelLatest,
+	}, organizationID)
+	if err != nil {
+		return nil, modr, err
+	}
+
+	r, err := MakeCreationRequest(request, organizationID)
+	if err != nil {
+		return nil, modr, err
+	}
+	return r, modr, nil
 }
 
 // Request structure for the image editing API endpoint.
@@ -190,6 +210,25 @@ func MakeEditRequest(request *EditRequest, organizationID *string) (*Response, e
 		return r, errors.New("no data in response")
 	}
 	return r, nil
+}
+
+// Runs request inputs through the moderations endpoint prior to making the request.
+// Returns a moderations.ModerationFlagError prior to making the request if the
+// inputs are flagged by the moderations endpoint.
+func MakeModeratedRequest(request *EditRequest, organizationID *string) (*Response, *moderations.Response, error) {
+	modr, err := moderations.MakeModeratedRequest(&moderations.Request{
+		Input: []string{request.Prompt},
+		Model: moderations.ModelLatest,
+	}, organizationID)
+	if err != nil {
+		return nil, modr, err
+	}
+
+	r, err := MakeEditRequest(request, organizationID)
+	if err != nil {
+		return nil, modr, err
+	}
+	return r, modr, nil
 }
 
 // Request structure for the image variations API endpoint.

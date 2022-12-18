@@ -20,7 +20,7 @@ func create() (*images.Response, error) {
 	const prompt = "A cute baby sea otter"
 
 	fmt.Printf("Creating from prompt: %s\n", prompt)
-	resp, err := images.MakeCreationRequest(&images.CreationRequest{
+	resp, _, err := images.MakeModeratedCreationRequest(&images.CreationRequest{
 		Prompt: prompt,
 		Size:   images.SmallImage,
 		User:   "https://github.com/TannerKvarfordt/gopenai",

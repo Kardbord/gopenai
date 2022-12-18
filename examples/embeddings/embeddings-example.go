@@ -18,7 +18,7 @@ func init() {
 
 func main() {
 	input := "The food was delicious and the waiter..."
-	resp, err := embeddings.MakeRequest(&embeddings.Request{
+	resp, _, err := embeddings.MakeModeratedRequest(&embeddings.Request{
 		Model: "text-embedding-ada-002",
 		Input: []string{input},
 		User:  "https://github.com/TannerKvarfordt/gopenai",

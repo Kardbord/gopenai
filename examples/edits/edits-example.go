@@ -18,7 +18,7 @@ func init() {
 
 func main() {
 	input := "What day of the wek is it?"
-	resp, err := edits.MakeRequest(&edits.Request{
+	resp, _, err := edits.MakeModeratedRequest(&edits.Request{
 		Model:       "text-davinci-edit-001",
 		Input:       input,
 		Instruction: "Fix the spelling mistakes",

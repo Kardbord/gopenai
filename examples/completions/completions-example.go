@@ -18,7 +18,7 @@ func init() {
 
 func main() {
 	prompt := "So long, and thanks for all the"
-	resp, err := completions.MakeRequest(&completions.Request{
+	resp, _, err := completions.MakeModeratedRequest(&completions.Request{
 		Model:            "text-ada-001",
 		Prompt:           []string{prompt},
 		MaxTokens:        5,
