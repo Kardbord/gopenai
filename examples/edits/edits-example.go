@@ -18,25 +18,13 @@ func init() {
 
 func main() {
 	input := "What day of the wek is it?"
-	resp, err := edits.MakeRequest(&edits.Request{
+	resp, _, err := edits.MakeModeratedRequest(&edits.Request{
 		Model:       "text-davinci-edit-001",
 		Input:       input,
 		Instruction: "Fix the spelling mistakes",
 	}, nil)
 	if err != nil {
 		fmt.Println(err)
-		return
-	}
-	if resp == nil {
-		fmt.Println("nil response received")
-		return
-	}
-	if resp.Error != nil {
-		fmt.Printf("%s -> %s\n", resp.Error.Type, resp.Error.Message)
-		return
-	}
-	if len(resp.Choices) < 1 {
-		fmt.Println("No choices received")
 		return
 	}
 

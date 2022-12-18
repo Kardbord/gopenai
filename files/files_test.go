@@ -22,15 +22,9 @@ func init() {
 }
 
 func list(t *testing.T) error {
-	resp, err := files.MakeListRequest(nil)
+	_, err := files.MakeListRequest(nil)
 	if err != nil {
 		t.Fatal(err)
-	}
-	if resp == nil {
-		t.Fatal(errors.New("nil response received"))
-	}
-	if resp.Error != nil {
-		t.Fatal(fmt.Errorf("%s -> %s", resp.Error.Type, resp.Error.Message))
 	}
 	return nil
 }
@@ -44,28 +38,14 @@ func upload(t *testing.T) (string, error) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if resp == nil {
-		t.Fatal(errors.New("nil response received"))
-	}
-	if resp.Error != nil {
-		t.Fatal(fmt.Errorf("%s -> %s", resp.Error.Type, resp.Error.Message))
-	}
-
 	return resp.ID, nil
 }
 
 func retrieve(fileID string, t *testing.T) error {
-	resp, err := files.MakeRetrieveRequest(fileID, nil)
+	_, err := files.MakeRetrieveRequest(fileID, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if resp == nil {
-		t.Fatal(errors.New("nil response received"))
-	}
-	if resp.Error != nil {
-		t.Fatal(fmt.Errorf("%s -> %s", resp.Error.Type, resp.Error.Message))
-	}
-
 	return nil
 }
 
@@ -83,12 +63,6 @@ func delete(fileID string, t *testing.T) error {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if resp == nil {
-		t.Fatal(errors.New("nil response received"))
-	}
-	if resp.Error != nil {
-		t.Fatal(fmt.Errorf("%s -> %s", resp.Error.Type, resp.Error.Message))
-	}
 	if !resp.Deleted {
 		t.Fatal(errors.New("failed to delete remote file"))
 	}
@@ -102,14 +76,14 @@ func TestFiles(t *testing.T) {
 
 	err = list(t)
 	if err != nil {
-		fmt.Println(err)
+		t.Fatal(err)
 		return
 	}
 
 	var fileID string
 	fileID, err = upload(t)
 	if err != nil {
-		fmt.Println(err)
+		t.Fatal(err)
 		return
 	}
 
@@ -121,25 +95,25 @@ func TestFiles(t *testing.T) {
 
 	err = list(t)
 	if err != nil {
-		fmt.Println(err)
+		t.Fatal(err)
 		return
 	}
 
 	err = retrieve(fileID, t)
 	if err != nil {
-		fmt.Println(err)
+		t.Fatal(err)
 		return
 	}
 
 	err = retrieveContent(fileID, t)
 	if err != nil {
-		fmt.Println(err)
+		t.Fatal(err)
 		return
 	}
 
 	err = delete(fileID, t)
 	if err != nil {
-		fmt.Println(err)
+		t.Fatal(err)
 		return
 	}
 }

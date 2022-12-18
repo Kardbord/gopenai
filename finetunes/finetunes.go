@@ -8,6 +8,7 @@
 package finetunes
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -143,7 +144,17 @@ type FineTune struct {
 //
 // [Learn more about Fine-tuning]: https://beta.openai.com/docs/guides/fine-tuning
 func MakeCreationRequest(request *CreationRequest, organizationID *string) (*FineTune, error) {
-	return common.MakeRequest[CreationRequest, FineTune](request, Endpoint, http.MethodPost, organizationID)
+	r, err := common.MakeRequest[CreationRequest, FineTune](request, Endpoint, http.MethodPost, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	return r, nil
 }
 
 type ListResponse struct {
@@ -154,37 +165,89 @@ type ListResponse struct {
 
 // List your organization's fine-tuning jobs
 func MakeListRequest(organizationID *string) (*ListResponse, error) {
-	return common.MakeRequest[any, ListResponse](nil, Endpoint, http.MethodGet, organizationID)
+	r, err := common.MakeRequest[any, ListResponse](nil, Endpoint, http.MethodGet, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	return r, nil
 }
 
 // Gets info about the fine-tune job.
 func MakeRetrieveRequest(fineTuneID string, organizationID *string) (*FineTune, error) {
-	return common.MakeRequest[any, FineTune](nil, fmt.Sprintf("%s/%s", Endpoint, fineTuneID), http.MethodGet, organizationID)
+	r, err := common.MakeRequest[any, FineTune](nil, fmt.Sprintf("%s/%s", Endpoint, fineTuneID), http.MethodGet, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	return r, nil
 }
 
 // Immediately cancel a fine-tune job.
 func MakeCancelRequest(fineTuneID string, organizationID *string) (*FineTune, error) {
-	return common.MakeRequest[any, FineTune](nil, fmt.Sprintf("%s/%s/cancel", Endpoint, fineTuneID), http.MethodPost, organizationID)
+	r, err := common.MakeRequest[any, FineTune](nil, fmt.Sprintf("%s/%s/cancel", Endpoint, fineTuneID), http.MethodPost, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	return r, nil
 }
 
 type ListEventsResponse struct {
-	Object string          `json:"object"`
-	Data   []FineTuneEvent `json:"data"`
+	Object string                `json:"object"`
+	Data   []FineTuneEvent       `json:"data"`
+	Error  *common.ResponseError `json:"error,omitempty"`
 }
 
 // Get fine-grained status updates for a fine-tune job.
 func MakeListEventsRequest(fineTuneID string, organizationID *string) (*ListEventsResponse, error) {
 	// TODO: support streaming: https://beta.openai.com/docs/api-reference/fine-tunes/events#fine-tunes/events-stream
-	return common.MakeRequest[any, ListEventsResponse](nil, fmt.Sprintf("%s/%s/events", Endpoint, fineTuneID), http.MethodGet, organizationID)
+	r, err := common.MakeRequest[any, ListEventsResponse](nil, fmt.Sprintf("%s/%s/events", Endpoint, fineTuneID), http.MethodGet, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	return r, nil
 }
 
 type DeleteResponse struct {
-	ID      int64  `json:"id"`
-	Object  string `json:"object"`
-	Deleted bool   `json:"deleted"`
+	ID      int64                 `json:"id"`
+	Object  string                `json:"object"`
+	Deleted bool                  `json:"deleted"`
+	Error   *common.ResponseError `json:"error,omitempty"`
 }
 
 // Delete a fine-tuned model. You must have the Owner role in your organization.
 func MakeDeleteRequest(fineTuneModel string, organizationID *string) (*DeleteResponse, error) {
-	return common.MakeRequest[any, DeleteResponse](nil, fmt.Sprintf("%s/%s", models.Endpoint, fineTuneModel), http.MethodDelete, organizationID)
+	r, err := common.MakeRequest[any, DeleteResponse](nil, fmt.Sprintf("%s/%s", models.Endpoint, fineTuneModel), http.MethodDelete, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	return r, nil
 }

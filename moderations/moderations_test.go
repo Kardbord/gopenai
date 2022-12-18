@@ -18,7 +18,7 @@ func init() {
 
 func TestModerations(t *testing.T) {
 	resp, err := moderations.MakeRequest(&moderations.Request{
-		Input: "So long, and thanks for all the fish.",
+		Input: []string{"So long, and thanks for all the fish."},
 		Model: moderations.ModelStable,
 	}, nil)
 	if err != nil {
@@ -26,8 +26,5 @@ func TestModerations(t *testing.T) {
 	}
 	if resp == nil {
 		t.Fatal("nil response received")
-	}
-	if resp.Error != nil {
-		t.Fatalf("%s -> %s", resp.Error.Type, resp.Error.Message)
 	}
 }

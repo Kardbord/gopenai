@@ -7,9 +7,11 @@
 package embeddings
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/TannerKvarfordt/gopenai/common"
+	"github.com/TannerKvarfordt/gopenai/moderations"
 )
 
 const Endpoint = common.BaseURL + "embeddings"
@@ -45,5 +47,37 @@ type Response struct {
 }
 
 func MakeRequest(request *Request, organizationID *string) (*Response, error) {
-	return common.MakeRequest[Request, Response](request, Endpoint, http.MethodPost, organizationID)
+	r, err := common.MakeRequest[Request, Response](request, Endpoint, http.MethodPost, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	if len(r.Data) == 0 {
+		return r, errors.New("no data in response")
+	}
+	return r, nil
+}
+
+// Runs request inputs through the moderations endpoint prior to making the request.
+// Returns a moderations.ModerationFlagError prior to making the request if the
+// inputs are flagged by the moderations endpoint.
+func MakeModeratedRequest(request *Request, organizationID *string) (*Response, *moderations.Response, error) {
+	modr, err := moderations.MakeModeratedRequest(&moderations.Request{
+		Input: request.Input,
+		Model: moderations.ModelLatest,
+	}, organizationID)
+	if err != nil {
+		return nil, modr, err
+	}
+
+	r, err := MakeRequest(request, organizationID)
+	if err != nil {
+		return nil, modr, err
+	}
+	return r, modr, nil
 }

@@ -5,6 +5,7 @@
 package moderations
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/TannerKvarfordt/gopenai/common"
@@ -24,7 +25,7 @@ const (
 // The request structure for moderation requests.
 type Request struct {
 	// The input text to classify.
-	Input string `json:"input"`
+	Input []string `json:"input"`
 
 	// Two content moderations models are available: text-moderation-stable and text-moderation-latest.
 	// The default is text-moderation-latest which will be automatically upgraded over time.
@@ -53,5 +54,44 @@ type Response struct {
 }
 
 func MakeRequest(request *Request, organizationID *string) (*Response, error) {
-	return common.MakeRequest[Request, Response](request, Endpoint, http.MethodPost, organizationID)
+	r, err := common.MakeRequest[Request, Response](request, Endpoint, http.MethodPost, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	if len(r.Results) == 0 {
+		return r, errors.New("no data in response")
+	}
+	return r, nil
+}
+
+// An error type to be returned if an input was flagged by the moderations endpoint.
+type ModerationFlagError struct{}
+
+func (e *ModerationFlagError) Error() string {
+	return "one or more request inputs were flagged by the moderations endpoint"
+}
+func NewModerationFlagError() (e *ModerationFlagError) {
+	return &ModerationFlagError{}
+}
+
+// Same as MakeRequest, except returns a ModerationFlagError if one or more request inputs were flagged.
+func MakeModeratedRequest(request *Request, organizationID *string) (*Response, error) {
+	r, err := MakeRequest(request, organizationID)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, res := range r.Results {
+		if res.Flagged {
+			return r, NewModerationFlagError()
+		}
+	}
+
+	return r, nil
 }

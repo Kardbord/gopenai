@@ -39,7 +39,17 @@ type ListResponse struct {
 
 // Returns a list of files that belong to the user's organization.
 func MakeListRequest(organizationID *string) (*ListResponse, error) {
-	return common.MakeRequest[any, ListResponse](nil, Endpoint, http.MethodGet, organizationID)
+	r, err := common.MakeRequest[any, ListResponse](nil, Endpoint, http.MethodGet, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	return r, nil
 }
 
 // Request structure for the files "upload" endpoint.
@@ -86,7 +96,17 @@ func MakeUploadRequest(request *UploadRequest, organizationID *string) (*Uploade
 	}
 
 	writer.Close()
-	return common.MakeRequestWithForm[UploadedFile](buf, Endpoint, http.MethodPost, writer.FormDataContentType(), organizationID)
+	r, err := common.MakeRequestWithForm[UploadedFile](buf, Endpoint, http.MethodPost, writer.FormDataContentType(), organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	return r, nil
 }
 
 // Response structure for the files "delete" endpoint.
@@ -99,12 +119,32 @@ type DeleteResponse struct {
 
 // Delete an uploaded file.
 func MakeDeleteRequest(fileID string, organizationID *string) (*DeleteResponse, error) {
-	return common.MakeRequest[any, DeleteResponse](nil, fmt.Sprintf("%s/%s", Endpoint, fileID), http.MethodDelete, organizationID)
+	r, err := common.MakeRequest[any, DeleteResponse](nil, fmt.Sprintf("%s/%s", Endpoint, fileID), http.MethodDelete, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	return r, nil
 }
 
 // Returns information about a specific file.
 func MakeRetrieveRequest(fileID string, organizationID *string) (*UploadedFile, error) {
-	return common.MakeRequest[any, UploadedFile](nil, fmt.Sprintf("%s/%s", Endpoint, fileID), http.MethodGet, organizationID)
+	r, err := common.MakeRequest[any, UploadedFile](nil, fmt.Sprintf("%s/%s", Endpoint, fileID), http.MethodGet, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	return r, nil
 }
 
 // Retreives "fileID" from Open AI, and writes it to disk at "filepath".

@@ -30,9 +30,6 @@ func create() (*images.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	if resp.Error != nil {
-		return nil, fmt.Errorf("%s -> %s", resp.Error.Type, resp.Error.Message)
-	}
 	if len(resp.Data) < 1 {
 		return nil, errors.New("no images created")
 	}
@@ -52,9 +49,6 @@ func variation(imagename, image string) error {
 	}, nil)
 	if err != nil {
 		return err
-	}
-	if resp.Error != nil {
-		return fmt.Errorf("%s -> %s", resp.Error.Type, resp.Error.Message)
 	}
 	if len(resp.Data) < 1 {
 		return errors.New("no images edited")

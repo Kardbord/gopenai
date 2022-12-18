@@ -2,7 +2,7 @@ project_name: gopenai
 builds:
   - skip: true
 changelog:
-  use: git
+  use: github
   sort: asc
   abbrev: -1
   filters:
@@ -17,10 +17,6 @@ release:
   name_template: "{{ .Tag }}"
   header: |
     ## Release {{ .Tag }}
-  footer: |
-    ## Full Changelog
-    
-    https://github.com/TannerKvarfordt/gopenai/compare/{{ .PreviousTag }}...{{ .Tag }}
 
 # modelines #
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json

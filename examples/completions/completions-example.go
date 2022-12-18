@@ -18,7 +18,7 @@ func init() {
 
 func main() {
 	prompt := "So long, and thanks for all the"
-	resp, err := completions.MakeRequest(&completions.Request{
+	resp, _, err := completions.MakeModeratedRequest(&completions.Request{
 		Model:            "text-ada-001",
 		Prompt:           []string{prompt},
 		MaxTokens:        5,
@@ -30,18 +30,6 @@ func main() {
 	}, nil)
 	if err != nil {
 		fmt.Println(err)
-		return
-	}
-	if resp == nil {
-		fmt.Println("nil response received")
-		return
-	}
-	if resp.Error != nil {
-		fmt.Printf("%s -> %s\n", resp.Error.Type, resp.Error.Message)
-		return
-	}
-	if len(resp.Choices) < 1 {
-		fmt.Println("no choices received")
 		return
 	}
 

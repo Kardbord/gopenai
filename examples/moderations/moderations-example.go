@@ -21,15 +21,11 @@ func request(input string) {
 	fmt.Println("Sending moderations request with input: ", input)
 
 	resp, err := moderations.MakeRequest(&moderations.Request{
-		Input: input,
+		Input: []string{input},
 		Model: moderations.ModelStable,
 	}, nil)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
-		return
-	}
-	if resp == nil {
-		fmt.Printf("Error: nil response\n")
 		return
 	}
 

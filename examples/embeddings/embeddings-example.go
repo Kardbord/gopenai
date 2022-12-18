@@ -18,25 +18,13 @@ func init() {
 
 func main() {
 	input := "The food was delicious and the waiter..."
-	resp, err := embeddings.MakeRequest(&embeddings.Request{
+	resp, _, err := embeddings.MakeModeratedRequest(&embeddings.Request{
 		Model: "text-embedding-ada-002",
 		Input: []string{input},
 		User:  "https://github.com/TannerKvarfordt/gopenai",
 	}, nil)
 	if err != nil {
 		fmt.Println(err)
-		return
-	}
-	if resp == nil {
-		fmt.Println("nil response received")
-		return
-	}
-	if resp.Error != nil {
-		fmt.Printf("%s -> %s\n", resp.Error.Type, resp.Error.Message)
-		return
-	}
-	if len(resp.Data) < 1 {
-		fmt.Println("No data returned in response")
 		return
 	}
 

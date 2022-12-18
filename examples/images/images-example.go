@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"os"
 
@@ -21,19 +20,13 @@ func create() (*images.Response, error) {
 	const prompt = "A cute baby sea otter"
 
 	fmt.Printf("Creating from prompt: %s\n", prompt)
-	resp, err := images.MakeCreationRequest(&images.CreationRequest{
+	resp, _, err := images.MakeModeratedCreationRequest(&images.CreationRequest{
 		Prompt: prompt,
 		Size:   images.SmallImage,
 		User:   "https://github.com/TannerKvarfordt/gopenai",
 	}, nil)
 	if err != nil {
 		return nil, err
-	}
-	if resp.Error != nil {
-		return nil, fmt.Errorf("%s -> %s", resp.Error.Type, resp.Error.Message)
-	}
-	if len(resp.Data) < 1 {
-		return nil, errors.New("no images created")
 	}
 
 	fmt.Printf("Generated: %s\n", resp.Data[0].URL)
@@ -51,12 +44,6 @@ func variation(imagename, image string) error {
 	}, nil)
 	if err != nil {
 		return err
-	}
-	if resp.Error != nil {
-		return fmt.Errorf("%s -> %s", resp.Error.Type, resp.Error.Message)
-	}
-	if len(resp.Data) < 1 {
-		return errors.New("no images edited")
 	}
 
 	fmt.Printf("Generated: %s\n", resp.Data[0].URL)

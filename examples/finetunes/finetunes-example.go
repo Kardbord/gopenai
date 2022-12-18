@@ -24,14 +24,6 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	if resp == nil {
-		fmt.Println("nil response received")
-		return
-	}
-	if resp.Error != nil {
-		fmt.Printf("%s -> %s\n", resp.Error.Type, resp.Error.Message)
-		return
-	}
 
 	fmt.Printf("You currently have %d finetune jobs running.\n", len(resp.Data))
 }

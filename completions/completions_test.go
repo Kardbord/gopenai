@@ -31,14 +31,6 @@ func TestCompletions(t *testing.T) {
 		t.Fatal(err)
 		return
 	}
-	if resp == nil {
-		t.Fatal("nil response received")
-		return
-	}
-	if resp.Error != nil {
-		t.Fatalf("%s -> %s", resp.Error.Type, resp.Error.Message)
-		return
-	}
 	if len(resp.Choices) < 1 {
 		t.Fatal("no choices received")
 		return

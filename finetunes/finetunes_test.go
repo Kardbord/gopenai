@@ -19,14 +19,8 @@ func init() {
 func TestFinetunes(t *testing.T) {
 	// TODO: build a more comprehensive tests for the finetunes endpoint.
 
-	resp, err := finetunes.MakeListRequest(nil)
+	_, err := finetunes.MakeListRequest(nil)
 	if err != nil {
 		t.Fatal(err)
-	}
-	if resp == nil {
-		t.Fatal("nil response received")
-	}
-	if resp.Error != nil {
-		t.Fatalf("%s -> %s\n", resp.Error.Type, resp.Error.Message)
 	}
 }

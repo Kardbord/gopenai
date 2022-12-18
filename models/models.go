@@ -9,6 +9,7 @@
 package models
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/TannerKvarfordt/gopenai/common"
@@ -41,10 +42,33 @@ type ListModelsResponse struct {
 
 // Lists the currently available models, and provides basic information about each one such as the owner and availability.
 func MakeListModelsRequest(organizationID *string) (*ListModelsResponse, error) {
-	return common.MakeRequest[any, ListModelsResponse](nil, Endpoint, http.MethodGet, organizationID)
+	r, err := common.MakeRequest[any, ListModelsResponse](nil, Endpoint, http.MethodGet, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	if len(r.Data) == 0 {
+		return r, errors.New("no data in response")
+	}
+	return r, nil
 }
 
 // Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
 func MakeRetrieveModelRequest(model string, organizationID *string) (*ModelResponse, error) {
-	return common.MakeRequest[any, ModelResponse](nil, Endpoint+"/"+model, http.MethodGet, organizationID)
+	r, err := common.MakeRequest[any, ModelResponse](nil, Endpoint+"/"+model, http.MethodGet, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	if r.Error != nil {
+		return r, r.Error
+	}
+	return r, nil
 }

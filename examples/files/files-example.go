@@ -24,12 +24,6 @@ func list() error {
 	if err != nil {
 		return err
 	}
-	if resp == nil {
-		return errors.New("nil response received")
-	}
-	if resp.Error != nil {
-		return fmt.Errorf("%s -> %s", resp.Error.Type, resp.Error.Message)
-	}
 
 	fmt.Printf("You currently have %d files uploaded to Open AI.\n", len(resp.Data))
 	return nil
@@ -44,12 +38,6 @@ func upload() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if resp == nil {
-		return "", errors.New("nil response received")
-	}
-	if resp.Error != nil {
-		return "", fmt.Errorf("%s -> %s", resp.Error.Type, resp.Error.Message)
-	}
 
 	fmt.Printf("Uploaded %s to Open AI, with purpose=\"%s\"\n", resp.Filename, resp.Purpose)
 	return resp.ID, nil
@@ -59,12 +47,6 @@ func retrieve(fileID string) error {
 	resp, err := files.MakeRetrieveRequest(fileID, nil)
 	if err != nil {
 		return err
-	}
-	if resp == nil {
-		return errors.New("nil response received")
-	}
-	if resp.Error != nil {
-		return fmt.Errorf("%s -> %s", resp.Error.Type, resp.Error.Message)
 	}
 
 	fmt.Printf("Retrieved fileID=%s from Open AI, with name=\"%s\" purpose=\"%s\"\n", fileID, resp.Filename, resp.Purpose)
@@ -85,12 +67,6 @@ func delete(fileID string) error {
 	resp, err := files.MakeDeleteRequest(fileID, nil)
 	if err != nil {
 		return err
-	}
-	if resp == nil {
-		return errors.New("nil response received")
-	}
-	if resp.Error != nil {
-		return fmt.Errorf("%s -> %s", resp.Error.Type, resp.Error.Message)
 	}
 	if !resp.Deleted {
 		return errors.New("failed to delete remote file")

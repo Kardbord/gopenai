@@ -23,27 +23,12 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	if listresp == nil {
-		fmt.Println("Nil response returned.")
-		return
-	}
-	if listresp.Error != nil {
-		fmt.Printf("Error: %s -> %s\n", listresp.Error.Type, listresp.Error.Message)
-		return
-	}
-	if len(listresp.Data) < 1 {
-		fmt.Println("No model information retrieved")
-		return
-	}
 
 	fmt.Printf("Retreived information for %d models. Calling the \"Retrieve\" endpoint with the first one.\n", len(listresp.Data))
 	resp, err := models.MakeRetrieveModelRequest(listresp.Data[0].ID, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
-	}
-	if resp == nil {
-		fmt.Println("Nil response returned")
 	}
 
 	jsonResp, err := json.MarshalIndent(resp, "", "  ")
