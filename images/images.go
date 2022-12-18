@@ -9,6 +9,7 @@ package images
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"mime/multipart"
@@ -108,6 +109,10 @@ type EditRequest struct {
 
 // Creates an edited or extended image given an original image and a prompt.
 func MakeEditRequest(request *EditRequest, organizationID *string) (*Response, error) {
+	if request == nil {
+		return nil, errors.New("nil request provided")
+	}
+
 	buf := new(bytes.Buffer)
 	writer := multipart.NewWriter(buf)
 
@@ -212,6 +217,10 @@ type VariationRequest struct {
 
 // Creates a variation of a given image.
 func MakeVariationRequest(request *VariationRequest, organizationID *string) (*Response, error) {
+	if request == nil {
+		return nil, errors.New("nil request provided")
+	}
+
 	buf := new(bytes.Buffer)
 	writer := multipart.NewWriter(buf)
 
