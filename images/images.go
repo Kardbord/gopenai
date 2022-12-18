@@ -112,39 +112,54 @@ func MakeEditRequest(request *EditRequest, organizationID *string) (*Response, e
 	buf := new(bytes.Buffer)
 	writer := multipart.NewWriter(buf)
 
-	err := common.CreateFormField("prompt", request.Prompt, writer)
-	if err != nil {
-		return nil, err
+	if len(request.Prompt) > 0 {
+		err := common.CreateFormField("prompt", request.Prompt, writer)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	err = common.CreateFormField("n", request.N, writer)
-	if err != nil {
-		return nil, err
+	var err error
+	if request.N != nil {
+		err = common.CreateFormField("n", request.N, writer)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	err = common.CreateFormField("size", request.Size, writer)
-	if err != nil {
-		return nil, err
+	if len(request.Size) > 0 {
+		err = common.CreateFormField("size", request.Size, writer)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	err = common.CreateFormField("response_format", request.ResponseFormat, writer)
-	if err != nil {
-		return nil, err
+	if len(request.ResponseFormat) > 0 {
+		err = common.CreateFormField("response_format", request.ResponseFormat, writer)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	err = common.CreateFormField("user", request.User, writer)
-	if err != nil {
-		return nil, err
+	if len(request.User) > 0 {
+		err = common.CreateFormField("user", request.User, writer)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	err = common.CreateFormFile("image", request.ImageName, request.Image, writer)
-	if err != nil {
-		return nil, err
+	if len(request.Image) > 0 {
+		err = common.CreateFormFile("image", request.ImageName, request.Image, writer)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	err = common.CreateFormFile("mask", request.MaskName, request.Mask, writer)
-	if err != nil {
-		return nil, err
+	if len(request.Mask) > 0 {
+		err = common.CreateFormFile("mask", request.MaskName, request.Mask, writer)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	writer.Close()
@@ -182,29 +197,40 @@ func MakeVariationRequest(request *VariationRequest, organizationID *string) (*R
 	buf := new(bytes.Buffer)
 	writer := multipart.NewWriter(buf)
 
-	err := common.CreateFormField("n", request.N, writer)
-	if err != nil {
-		return nil, err
+	var err error
+	if request.N != nil {
+		err = common.CreateFormField("n", request.N, writer)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	err = common.CreateFormField("size", request.Size, writer)
-	if err != nil {
-		return nil, err
+	if len(request.Size) > 0 {
+		err = common.CreateFormField("size", request.Size, writer)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	err = common.CreateFormField("response_format", request.ResponseFormat, writer)
-	if err != nil {
-		return nil, err
+	if len(request.ResponseFormat) > 0 {
+		err = common.CreateFormField("response_format", request.ResponseFormat, writer)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	err = common.CreateFormField("user", request.User, writer)
-	if err != nil {
-		return nil, err
+	if len(request.User) > 0 {
+		err = common.CreateFormField("user", request.User, writer)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	err = common.CreateFormFile("image", request.ImageName, request.Image, writer)
-	if err != nil {
-		return nil, err
+	if len(request.Image) > 0 {
+		err = common.CreateFormFile("image", request.ImageName, request.Image, writer)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	writer.Close()

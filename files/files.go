@@ -71,14 +71,18 @@ func MakeUploadRequest(request *UploadRequest, organizationID *string) (*Uploade
 	buf := new(bytes.Buffer)
 	writer := multipart.NewWriter(buf)
 
-	err := common.CreateFormField("purpose", request.Purpose, writer)
-	if err != nil {
-		return nil, err
+	if len(request.Purpose) > 0 {
+		err := common.CreateFormField("purpose", request.Purpose, writer)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	err = common.CreateFormFile("file", request.Filename, request.Filepath, writer)
-	if err != nil {
-		return nil, err
+	if len(request.Filepath) > 0 {
+		err := common.CreateFormFile("file", request.Filename, request.Filepath, writer)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	writer.Close()

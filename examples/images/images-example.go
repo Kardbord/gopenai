@@ -20,7 +20,7 @@ func init() {
 func create() (*images.Response, error) {
 	const prompt = "A cute baby sea otter"
 
-	fmt.Printf("Prompt: %s\n", prompt)
+	fmt.Printf("Creating from prompt: %s\n", prompt)
 	resp, err := images.MakeCreationRequest(&images.CreationRequest{
 		Prompt: prompt,
 		Size:   images.SmallImage,
@@ -40,8 +40,37 @@ func create() (*images.Response, error) {
 	return resp, nil
 }
 
+func variation(imagename, image string) error {
+
+	fmt.Printf("Generating a variation...")
+	resp, err := images.MakeVariationRequest(&images.VariationRequest{
+		Image:     image,
+		ImageName: imagename,
+		Size:      images.SmallImage,
+		User:      "https://github.com/TannerKvarfordt/gopenai",
+	}, nil)
+	if err != nil {
+		return err
+	}
+	if resp.Error != nil {
+		return fmt.Errorf("%s -> %s", resp.Error.Type, resp.Error.Message)
+	}
+	if len(resp.Data) < 1 {
+		return errors.New("no images edited")
+	}
+
+	fmt.Printf("Generated: %s\n", resp.Data[0].URL)
+	return nil
+}
+
 func main() {
-	_, err := create()
+	resp, err := create()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	err = variation("Original", resp.Data[0].URL)
 	if err != nil {
 		fmt.Println(err)
 		return
