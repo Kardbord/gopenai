@@ -11,7 +11,7 @@ The links below lead to examples of how to use each library package.
 - [x] [Edits](./edits/README.md)
 - [x] [Embeddings](./embeddings/README.md)
 - [x] [Files](./files/README.md)
-- [ ] [Fine-Tunes](./finetunes/README.md)
+- [x] [Fine-Tunes](./finetunes/README.md) (Additional Testing Needed)
 - [ ] [Images](./images/README.md)
 - [x] [Models](./models/README.md)
 - [x] [Moderations](./moderations/README.md)
