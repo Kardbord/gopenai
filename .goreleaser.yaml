@@ -16,7 +16,7 @@ release:
   mode: keep-existing
   name_template: "{{ .Tag }}"
   header: |
-    ## Release {{ .Tag }} - ({{ .Date }})
+    ## Release {{ .Tag }}
   footer: |
     ## Full Changelog
     
