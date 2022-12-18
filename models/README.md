@@ -4,4 +4,6 @@ Bindings for the [models](https://beta.openai.com/docs/api-reference/models) [en
 
 ## Example
 
+See Open AI's [models documentation](https://beta.openai.com/docs/models).
+
 See [models-example.go](../examples/models/models-example.go).

@@ -4,4 +4,6 @@ Bindings for the [moderations](https://beta.openai.com/docs/api-reference/modera
 
 ## Example
 
+See Open AI's [Moderation Guide](https://beta.openai.com/docs/guides/moderation).
+
 See [moderations-example.go](../examples/moderations/moderations-example.go).
