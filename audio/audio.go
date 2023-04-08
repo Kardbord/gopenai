@@ -7,8 +7,11 @@
 package audio
 
 import (
+	"bytes"
 	"errors"
+	"mime/multipart"
 	"net/http"
+	"path/filepath"
 
 	"github.com/TannerKvarfordt/gopenai/common"
 )
@@ -34,6 +37,7 @@ const (
 type TranscriptionRequest struct {
 	// The audio file to transcribe, in one of these formats:
 	// mp3, mp4, mpeg, mpga, m4a, wav, or webm.
+	// This can be a file path or a URL.
 	File string `json:"file"`
 
 	// ID of the model to use. You can use the List models API
@@ -65,6 +69,7 @@ type TranscriptionRequest struct {
 type TranslationRequest struct {
 	// The audio file to transcribe, in one of these formats:
 	// mp3, mp4, mpeg, mpga, m4a, wav, or webm.
+	// This can be a file path or a URL.
 	File string `json:"file"`
 
 	// ID of the model to use. You can use the List models API
@@ -97,7 +102,19 @@ type Response struct {
 }
 
 func MakeTranscriptionRequest(request *TranscriptionRequest, organizationID *string) (*Response, error) {
-	r, err := common.MakeRequest[TranscriptionRequest, Response](request, TransciptionEndpoint, http.MethodPost, organizationID)
+	buf := new(bytes.Buffer)
+	writer := multipart.NewWriter(buf)
+	err := common.CreateFormField("model", request.Model, writer)
+	if err != nil {
+		return nil, err
+	}
+
+	err = common.CreateFormFile("file", filepath.Base(request.File), request.File, writer)
+	if err != nil {
+		return nil, err
+	}
+	writer.Close()
+	r, err := common.MakeRequestWithForm[Response](buf, TransciptionEndpoint, http.MethodPost, writer.FormDataContentType(), organizationID)
 	if err != nil {
 		return nil, err
 	}
@@ -111,7 +128,19 @@ func MakeTranscriptionRequest(request *TranscriptionRequest, organizationID *str
 }
 
 func MakeTranslationRequest(request *TranslationRequest, organizationID *string) (*Response, error) {
-	r, err := common.MakeRequest[TranslationRequest, Response](request, TranslationEndpoint, http.MethodPost, organizationID)
+	buf := new(bytes.Buffer)
+	writer := multipart.NewWriter(buf)
+	err := common.CreateFormField("model", request.Model, writer)
+	if err != nil {
+		return nil, err
+	}
+
+	err = common.CreateFormFile("file", filepath.Base(request.File), request.File, writer)
+	if err != nil {
+		return nil, err
+	}
+	writer.Close()
+	r, err := common.MakeRequestWithForm[Response](buf, TranslationEndpoint, http.MethodPost, writer.FormDataContentType(), organizationID)
 	if err != nil {
 		return nil, err
 	}
