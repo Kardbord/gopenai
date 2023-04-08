@@ -17,8 +17,8 @@ func init() {
 
 const (
 	model             = "whisper-1"
-	transcriptionFile = "transcription.m4a"
-	translationFile   = "translation.m4a"
+	transcriptionFile = "./transcription.m4a"
+	translationFile   = "./translation.m4a"
 )
 
 func main() {
