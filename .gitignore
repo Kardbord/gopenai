@@ -23,6 +23,9 @@ examples/**/.env
 .vscode/
 
 # Example binaries
+dist/
+examples/audio/audio
+examples/chat/chat
 examples/completions/completions
 examples/edits/edits
 examples/embeddings/embeddings
@@ -31,4 +34,3 @@ examples/finetunes/finetunes
 examples/images/images
 examples/models/models
 examples/moderations/moderations
-dist/
