@@ -9,6 +9,8 @@ Go (Golang) bindings for the [OpenAI API](https://beta.openai.com/docs/api-refer
 
 The links below lead to examples of how to use each library package.
 
+- [x] [Audio](./audio/README.md)
+- [x] [Chat](./chat/README.md)
 - [x] [Completions](./completions/README.md)
 - [x] [Edits](./edits/README.md)
 - [x] [Embeddings](./embeddings/README.md)
