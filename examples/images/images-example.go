@@ -22,7 +22,7 @@ func create() (*images.Response, error) {
 	fmt.Printf("Creating from prompt: %s\n", prompt)
 	resp, _, err := images.MakeModeratedCreationRequest(&images.CreationRequest{
 		Prompt: prompt,
-		Size:   images.SmallImage,
+		Size:   images.Dalle2SmallImage,
 		User:   "https://github.com/TannerKvarfordt/gopenai",
 	}, nil)
 	if err != nil {
@@ -39,7 +39,7 @@ func variation(imagename, image string) error {
 	resp, err := images.MakeVariationRequest(&images.VariationRequest{
 		Image:     image,
 		ImageName: imagename,
-		Size:      images.SmallImage,
+		Size:      images.Dalle2SmallImage,
 		User:      "https://github.com/TannerKvarfordt/gopenai",
 	}, nil)
 	if err != nil {
