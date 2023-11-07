@@ -193,14 +193,15 @@ func MakeEditRequest(request *EditRequest, organizationID *string) (*Response, e
 	buf := new(bytes.Buffer)
 	writer := multipart.NewWriter(buf)
 
+	var err error
+
 	if len(request.Prompt) > 0 {
-		err := common.CreateFormField("prompt", request.Prompt, writer)
+		err = common.CreateFormField("prompt", request.Prompt, writer)
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	var err error
 	if request.N != nil {
 		err = common.CreateFormField("n", request.N, writer)
 		if err != nil {
@@ -224,6 +225,13 @@ func MakeEditRequest(request *EditRequest, organizationID *string) (*Response, e
 
 	if len(request.User) > 0 {
 		err = common.CreateFormField("user", request.User, writer)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if len(request.Model) > 0 {
+		err = common.CreateFormField("model", request.Model, writer)
 		if err != nil {
 			return nil, err
 		}
