@@ -18,14 +18,15 @@ func init() {
 	authentication.SetAPIKey(key)
 }
 
-func create() (*images.Response, error) {
+func create(model, size string) (*images.Response, error) {
 	const prompt = "A cute baby sea otter"
 
 	fmt.Printf("Creating from prompt: %s\n", prompt)
 	resp, err := images.MakeCreationRequest(&images.CreationRequest{
 		Prompt: prompt,
-		Size:   images.SmallImage,
+		Size:   size,
 		User:   "https://github.com/TannerKvarfordt/gopenai",
+		Model:  model,
 	}, nil)
 	if err != nil {
 		return nil, err
@@ -38,14 +39,15 @@ func create() (*images.Response, error) {
 	return resp, nil
 }
 
-func variation(imagename, image string) error {
+func variation(model, imagename, image string) error {
 
 	fmt.Printf("Generating a variation...")
 	resp, err := images.MakeVariationRequest(&images.VariationRequest{
 		Image:     image,
 		ImageName: imagename,
-		Size:      images.SmallImage,
+		Size:      images.Dalle2SmallImage,
 		User:      "https://github.com/TannerKvarfordt/gopenai",
+		Model:     model,
 	}, nil)
 	if err != nil {
 		return err
@@ -58,13 +60,20 @@ func variation(imagename, image string) error {
 	return nil
 }
 
-func TestImages(t *testing.T) {
-	resp, err := create()
+func TestImagesDalle2(t *testing.T) {
+	resp, err := create(images.ModelDalle2, images.Dalle2SmallImage)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	err = variation("Original", resp.Data[0].URL)
+	err = variation(images.ModelDalle2, "Original", resp.Data[0].URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestImagesDalle3(t *testing.T) {
+	_, err := create(images.ModelDalle3, images.Dalle3SquareImage)
 	if err != nil {
 		t.Fatal(err)
 	}

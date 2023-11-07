@@ -25,9 +25,20 @@ const (
 )
 
 const (
-	SmallImage  string = "256x256"
-	MediumImage string = "512x512"
-	LargeImage  string = "1024x1024"
+	Dalle2SmallImage  = "256x256"
+	Dalle2MediumImage = "512x512"
+	Dalle2LargeImage  = "1024x1024"
+
+	Dalle3SquareImage    = "1024x1024"
+	Dalle3LandscapeImage = "1792x1024"
+	Dalle3PortraitImage  = "1024x1792"
+
+	// Deprecated: Use Dalle2SmallImage instead.
+	SmallImage = Dalle2SmallImage
+	// Deprecated: Use Dalle2MediumImage instead.
+	MediumImage = Dalle2MediumImage
+	// Deprecated: Use Dalle2LargeImage instead.
+	LargeImage = Dalle2LargeImage
 )
 
 const (
@@ -35,29 +46,63 @@ const (
 	ResponseFormatB64JSON = "b64_json"
 )
 
+const (
+	ModelDalle2 = "dall-e-2"
+	ModelDalle3 = "dall-e-3"
+)
+
+const (
+	QualityStandard = "standard"
+	QualityHD       = "hd"
+)
+
+const (
+	StyleVivid   = "vivid"
+	StyleNatural = "natural"
+)
+
 // Response structure for the image API endpoint.
 type Response struct {
 	Created uint64 `json:"created"`
 	Data    []struct {
-		URL     string `json:"url"`
-		B64JSON string `json:"b64_json"`
+		URL           string `json:"url"`
+		B64JSON       string `json:"b64_json"`
+		RevisedPrompt string `json:"revised_prompt"`
 	}
 	Error *common.ResponseError `json:"error,omitempty"`
 }
 
 // Request structure for the image creation API endpoint.
 type CreationRequest struct {
-	// A text description of the desired image(s). The maximum length is 1000 characters.
+	// A text description of the desired image(s).
+	// The maximum length is 1000 characters for dall-e-2 and 4000 characters for dall-e-3.
 	Prompt string `json:"prompt,omitempty"`
 
+	// The model to use for image generation.
+	Model string `json:"model,omitempty"`
+
 	// The number of images to generate. Must be between 1 and 10.
+	// For dall-e-3, only n=1 is supported.
 	N *uint64 `json:"n,omitempty"`
 
-	// The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
-	Size string `json:"size,omitempty"`
+	// The quality of the image that will be generated.
+	// "hd" creates images with finer details and greater consistency across the image.
+	// This param is only supported for dall-e-3.
+	Quality string `json:"quality,omitempty"`
 
 	// The format in which the generated images are returned. Must be one of url or b64_json.
 	ResponseFormat string `json:"response_format,omitempty"`
+
+	// The size of the generated images.
+	// Must be one of 256x256, 512x512, or 1024x1024 for dall-e-2.
+	// Must be one of 1024x1024, 1792x1024, or 1024x1792 for dall-e-3 models.
+	Size string `json:"size,omitempty"`
+
+	// The style of the generated images. Must be one of vivid or natural.
+	// Vivid causes the model to lean towards generating hyper-real and dramatic images.
+	// Natural causes the model to produce more natural, less hyper-real looking images.
+	// This param is only supported for dall-e-3.
+	Style string `json:"style,omitempty"`
 
 	// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
 	User string `json:"user,omitempty"`
@@ -111,6 +156,9 @@ type EditRequest struct {
 	// any path information.
 	ImageName string `json:"-"`
 
+	// A text description of the desired image(s). The maximum length is 1000 characters.
+	Prompt string `json:"prompt,omitempty"`
+
 	// An additional image whose fully transparent areas (e.g. where alpha is zero)
 	// indicate where image should be edited. Must be a valid PNG file, less than 4MB,
 	// and have the same dimensions as image.
@@ -120,8 +168,8 @@ type EditRequest struct {
 	// path information.
 	MaskName string `json:"-"`
 
-	// A text description of the desired image(s). The maximum length is 1000 characters.
-	Prompt string `json:"prompt,omitempty"`
+	// The model to use for image generation. Only dall-e-2 is supported at this time.
+	Model string `json:"model,omitempty"`
 
 	// The number of images to generate. Must be between 1 and 10.
 	N *uint64 `json:"n,omitempty"`
@@ -145,14 +193,15 @@ func MakeEditRequest(request *EditRequest, organizationID *string) (*Response, e
 	buf := new(bytes.Buffer)
 	writer := multipart.NewWriter(buf)
 
+	var err error
+
 	if len(request.Prompt) > 0 {
-		err := common.CreateFormField("prompt", request.Prompt, writer)
+		err = common.CreateFormField("prompt", request.Prompt, writer)
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	var err error
 	if request.N != nil {
 		err = common.CreateFormField("n", request.N, writer)
 		if err != nil {
@@ -176,6 +225,13 @@ func MakeEditRequest(request *EditRequest, organizationID *string) (*Response, e
 
 	if len(request.User) > 0 {
 		err = common.CreateFormField("user", request.User, writer)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if len(request.Model) > 0 {
+		err = common.CreateFormField("model", request.Model, writer)
 		if err != nil {
 			return nil, err
 		}
@@ -240,6 +296,9 @@ type VariationRequest struct {
 	// any path information.
 	ImageName string `json:"-"`
 
+	// The model to use for image generation. Only dall-e-2 is supported at this time.
+	Model string `json:"model,omitempty"`
+
 	// The number of images to generate. Must be between 1 and 10.
 	N *uint64 `json:"n,omitempty"`
 
@@ -263,6 +322,7 @@ func MakeVariationRequest(request *VariationRequest, organizationID *string) (*R
 	writer := multipart.NewWriter(buf)
 
 	var err error
+
 	if request.N != nil {
 		err = common.CreateFormField("n", request.N, writer)
 		if err != nil {
@@ -293,6 +353,13 @@ func MakeVariationRequest(request *VariationRequest, organizationID *string) (*R
 
 	if len(request.Image) > 0 {
 		err = common.CreateFormFile("image", request.ImageName, request.Image, writer)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if len(request.Model) > 0 {
+		err = common.CreateFormField("model", request.Model, writer)
 		if err != nil {
 			return nil, err
 		}
