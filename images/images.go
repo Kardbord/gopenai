@@ -296,6 +296,9 @@ type VariationRequest struct {
 	// any path information.
 	ImageName string `json:"-"`
 
+	// The model to use for image generation. Only dall-e-2 is supported at this time.
+	Model string `json:"model,omitempty"`
+
 	// The number of images to generate. Must be between 1 and 10.
 	N *uint64 `json:"n,omitempty"`
 
@@ -319,6 +322,7 @@ func MakeVariationRequest(request *VariationRequest, organizationID *string) (*R
 	writer := multipart.NewWriter(buf)
 
 	var err error
+
 	if request.N != nil {
 		err = common.CreateFormField("n", request.N, writer)
 		if err != nil {
@@ -349,6 +353,13 @@ func MakeVariationRequest(request *VariationRequest, organizationID *string) (*R
 
 	if len(request.Image) > 0 {
 		err = common.CreateFormFile("image", request.ImageName, request.Image, writer)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if len(request.Model) > 0 {
+		err = common.CreateFormField("model", request.Model, writer)
 		if err != nil {
 			return nil, err
 		}
