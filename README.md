@@ -26,7 +26,7 @@ If you use this library, you must conform to Open AI's [Usage Policies](https://
 
 ## Other Language Bindings
 
-For another great Go implementation, see [sashabaranov/go-gpt3](https://github.com/sashabaranov/go-gpt3).
+For another great Go implementation, see [sashabaranov/go-openai](https://github.com/sashabaranov/go-openai).
 For other languages, see [Open AI's Website](https://beta.openai.com/docs/libraries/libraries).
 
 ## Contributing
