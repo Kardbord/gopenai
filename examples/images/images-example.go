@@ -16,14 +16,15 @@ func init() {
 	authentication.SetAPIKey(key)
 }
 
-func create() (*images.Response, error) {
+func create(model, size string) (*images.Response, error) {
 	const prompt = "A cute baby sea otter"
 
-	fmt.Printf("Creating from prompt: %s\n", prompt)
+	fmt.Printf("Creating from model=\"%s\", prompt=\"%s\"\n", model, prompt)
 	resp, _, err := images.MakeModeratedCreationRequest(&images.CreationRequest{
 		Prompt: prompt,
-		Size:   images.Dalle2SmallImage,
+		Size:   size,
 		User:   "https://github.com/TannerKvarfordt/gopenai",
+		Model:  model,
 	}, nil)
 	if err != nil {
 		return nil, err
@@ -51,13 +52,19 @@ func variation(imagename, image string) error {
 }
 
 func main() {
-	resp, err := create()
+	resp, err := create(images.ModelDalle2, images.Dalle2SmallImage)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	err = variation("Original", resp.Data[0].URL)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	_, err = create(images.ModelDalle3, images.Dalle3SquareImage)
 	if err != nil {
 		fmt.Println(err)
 		return
