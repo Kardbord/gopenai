@@ -156,6 +156,9 @@ type EditRequest struct {
 	// any path information.
 	ImageName string `json:"-"`
 
+	// A text description of the desired image(s). The maximum length is 1000 characters.
+	Prompt string `json:"prompt,omitempty"`
+
 	// An additional image whose fully transparent areas (e.g. where alpha is zero)
 	// indicate where image should be edited. Must be a valid PNG file, less than 4MB,
 	// and have the same dimensions as image.
@@ -165,8 +168,8 @@ type EditRequest struct {
 	// path information.
 	MaskName string `json:"-"`
 
-	// A text description of the desired image(s). The maximum length is 1000 characters.
-	Prompt string `json:"prompt,omitempty"`
+	// The model to use for image generation. Only dall-e-2 is supported at this time.
+	Model string `json:"model,omitempty"`
 
 	// The number of images to generate. Must be between 1 and 10.
 	N *uint64 `json:"n,omitempty"`
