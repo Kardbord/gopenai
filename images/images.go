@@ -65,8 +65,9 @@ const (
 type Response struct {
 	Created uint64 `json:"created"`
 	Data    []struct {
-		URL     string `json:"url"`
-		B64JSON string `json:"b64_json"`
+		URL           string `json:"url"`
+		B64JSON       string `json:"b64_json"`
+		RevisedPrompt string `json:"revised_prompt"`
 	}
 	Error *common.ResponseError `json:"error,omitempty"`
 }
