@@ -25,8 +25,9 @@ func main() {
 	{ // Transcription
 		fmt.Printf("Sending transcription request for file %s...\n", transcriptionFile)
 		r, err := audio.MakeTranscriptionRequest(&audio.TranscriptionRequest{
-			File:  transcriptionFile,
-			Model: model,
+			File:     transcriptionFile,
+			Model:    model,
+			Language: "en",
 		}, nil)
 		if err != nil {
 			fmt.Printf("Error with transcription request: %s\n", err)

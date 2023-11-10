@@ -22,8 +22,9 @@ func init() {
 
 func TestTranscription(t *testing.T) {
 	resp, err := audio.MakeTranscriptionRequest(&audio.TranscriptionRequest{
-		File:  transcriptionFilePath,
-		Model: model,
+		File:     transcriptionFilePath,
+		Model:    model,
+		Language: "en",
 	}, nil)
 	if err != nil {
 		t.Fatal(err)
