@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"reflect"
 	"strings"
 
 	auth "github.com/TannerKvarfordt/gopenai/authentication"
@@ -117,13 +118,23 @@ func makeRequest[ResponseT any](req *http.Request) (*ResponseT, error) {
 		return nil, errors.New("unable to parse response body")
 	}
 
-	response := new(ResponseT)
-	err = json.Unmarshal(respBody, response)
+	var response ResponseT
+	if _, ok := any(response).([]byte); ok {
+		// Special case for handling binary return types.
+		// Defer to the caller to do what they will with
+		// the response.
+		v := reflect.ValueOf(&response).Elem()
+		v.Set(reflect.MakeSlice(v.Type(), len(respBody), cap(respBody)))
+		v.SetBytes(respBody)
+		return &response, nil
+	}
+
+	err = json.Unmarshal(respBody, &response)
 	if err != nil {
 		return nil, err
 	}
 
-	return response, nil
+	return &response, nil
 }
 
 func IsUrl(str string) bool {

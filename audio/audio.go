@@ -20,13 +20,16 @@ const (
 	BaseEndpoint         = common.BaseURL + "audio/"
 	TransciptionEndpoint = BaseEndpoint + "transcriptions"
 	TranslationEndpoint  = BaseEndpoint + "translations"
+	SpeechEndpoint       = BaseEndpoint + "speech"
 )
 
 type ResponseFormat = string
 
 const (
 	// TODO: Support non-json return formats.
-	JSONResponseFormat = "json"
+	ResponseFormatJSON = "json"
+	// [deprecated]: Use ResponseFormatJSON instead
+	JSONResponseFormat = ResponseFormatJSON
 	//TextResponseFormat        = "text"
 	//SRTResponseFormat         = "srt"
 	//VerboseJSONResponseFormat = "verbose_json"
@@ -151,4 +154,47 @@ func MakeTranslationRequest(request *TranslationRequest, organizationID *string)
 		return r, r.Error
 	}
 	return r, nil
+}
+
+const (
+	VoiceAlloy   = "alloy"
+	VoiceEcho    = "echo"
+	VoiceFable   = "fable"
+	VoiceOnyx    = "onyx"
+	VoiceNova    = "nova"
+	VoiceShimmer = "shimmer"
+
+	SpeechFormatMp3  = "mp3"
+	SpeechFormatOpus = "opus"
+	SpeechFormatAac  = "aac"
+	SpeechFormatFlac = "flac"
+)
+
+// Request structure for the create speech endpoint.
+type SpeechRequest struct {
+	// One of the available TTS models.
+	Model string `json:"model"`
+
+	// The text to generate audio for. The maximum length is 4096 characters.
+	Input string `json:"input"`
+
+	// The voice to use when generating the audio.
+	Voice string `json:"voice"`
+
+	// The format to audio in.
+	ResponseFormat ResponseFormat `json:"response_format,omitempty"`
+
+	// The speed of the generated audio. Select a value from 0.25 to 4.0. 1.0 is the default.
+	Speed float64 `json:"speed,omitempty"`
+}
+
+func MakeSpeechRequest(request *SpeechRequest, organizationID *string) ([]byte, error) {
+	r, err := common.MakeRequest[SpeechRequest, []byte](request, SpeechEndpoint, http.MethodPost, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	if r == nil {
+		return nil, errors.New("nil response received")
+	}
+	return *r, nil
 }

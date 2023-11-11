@@ -50,3 +50,20 @@ func TestTranslation(t *testing.T) {
 		return
 	}
 }
+
+func TestSpeech(t *testing.T) {
+	resp, err := audio.MakeSpeechRequest(&audio.SpeechRequest{
+		Model:          "tts-1",
+		Input:          "The quick brown fox jumps over the lazy dog.",
+		Voice:          audio.VoiceAlloy,
+		ResponseFormat: audio.SpeechFormatMp3,
+	}, nil)
+	if err != nil {
+		t.Fatal(err)
+		return
+	}
+	if len(resp) == 0 {
+		t.Fatal("No audio returned")
+		return
+	}
+}
