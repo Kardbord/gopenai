@@ -34,3 +34,6 @@ examples/finetunes/finetunes
 examples/images/images
 examples/models/models
 examples/moderations/moderations
+
+# Example outputs
+examples/audio/speech-creation.mp3
