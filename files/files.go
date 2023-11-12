@@ -156,23 +156,10 @@ func MakeRetrieveContentRequest(fileID, filepath string, overwrite bool, organiz
 		return os.ErrExist
 	}
 
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/%s/content", Endpoint, fileID), nil)
+	respBody, err := MakeRetrieveContentRequestNoDisk(fileID, organizationID)
 	if err != nil {
 		return err
 	}
-	if req == nil {
-		return errors.New("nil request created")
-	}
-
-	common.SetRequestHeaders(req, "application/json", organizationID)
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return err
-	}
-	if resp == nil {
-		return errors.New("nil response received")
-	}
-	defer resp.Body.Close()
 
 	fout, err := os.Create(filepath)
 	if err != nil {
@@ -180,10 +167,41 @@ func MakeRetrieveContentRequest(fileID, filepath string, overwrite bool, organiz
 	}
 	defer fout.Close()
 
-	_, err = io.Copy(fout, resp.Body)
+	_, err = io.Copy(fout, bytes.NewBuffer(respBody))
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+// Retreives "fileID" from Open AI, and returns the bytes of the file.
+func MakeRetrieveContentRequestNoDisk(fileID string, organizationID *string) ([]byte, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/%s/content", Endpoint, fileID), nil)
+	if err != nil {
+		return nil, err
+	}
+	if req == nil {
+		return nil, errors.New("nil request created")
+	}
+
+	common.SetRequestHeaders(req, "application/json", organizationID)
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	if resp == nil {
+		return nil, errors.New("nil response received")
+	}
+	defer resp.Body.Close()
+
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	if respBody == nil {
+		return nil, errors.New("unable to parse response body")
+	}
+
+	return respBody, nil
 }
