@@ -55,7 +55,7 @@ func main() {
 		resp, err := audio.MakeSpeechRequest(&audio.SpeechRequest{
 			Model:          "tts-1",
 			Input:          s,
-			Voice:          audio.VoiceOnyx,
+			Voice:          audio.VoiceNova,
 			ResponseFormat: audio.SpeechFormatMp3,
 		}, nil)
 		if err != nil {

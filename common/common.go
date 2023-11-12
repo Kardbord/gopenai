@@ -25,6 +25,10 @@ const (
 	BaseURL = "https://api.openai.com/" + APIVersion + "/"
 )
 
+type responseErrorWrapper struct {
+	Error *ResponseError `json:"error,omitempty"`
+}
+
 // A common error structure included in OpenAI API response bodies.
 type ResponseError struct {
 	// The error message.
@@ -126,6 +130,12 @@ func makeRequest[ResponseT any](req *http.Request) (*ResponseT, error) {
 		v := reflect.ValueOf(&response).Elem()
 		v.Set(reflect.MakeSlice(v.Type(), len(respBody), cap(respBody)))
 		v.SetBytes(respBody)
+
+		respErr := responseErrorWrapper{}
+		json.Unmarshal(respBody, &respErr)
+		if respErr.Error != nil {
+			return &response, respErr.Error
+		}
 		return &response, nil
 	}
 
