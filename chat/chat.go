@@ -40,7 +40,7 @@ type Chat struct {
 	ToolCalls []ToolCall `json:"tool_calls,omitempty"`
 	Role      Role       `json:"role"`
 
-	// [Deprecated]: Use ToolCalls instead
+	// Deprecated: Use ToolCalls instead
 	FunctionCall []FunctionCall `json:"function_call,omitempty"`
 }
 
