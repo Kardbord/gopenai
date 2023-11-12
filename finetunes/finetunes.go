@@ -1,3 +1,5 @@
+// Deprecated: See https://platform.openai.com/docs/deprecations/2023-08-22-fine-tunes-endpoint
+//
 // Package finetunes provides bindings for the [finetunes] [endpoint].
 // Manage fine-tuning jobs to tailor a model to your specific training data.
 // Related guide: [Fine-tune models].
