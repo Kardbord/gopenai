@@ -31,6 +31,9 @@ type Request struct {
 	// A unique identifier representing your end-user, which can help OpenAI to
 	// monitor and detect abuse.
 	User string `json:"user"`
+
+	// The format to return the embeddings in. Can be either float or base64.
+	EncodingFormat string `json:"encoding_format,omitempty"`
 }
 
 // Response structure for the embeddings API endpoint.
