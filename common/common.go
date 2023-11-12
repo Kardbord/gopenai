@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"reflect"
 	"strings"
 
 	auth "github.com/TannerKvarfordt/gopenai/authentication"
@@ -23,6 +24,10 @@ const (
 	// The basis of all API endpoints.
 	BaseURL = "https://api.openai.com/" + APIVersion + "/"
 )
+
+type responseErrorWrapper struct {
+	Error *ResponseError `json:"error,omitempty"`
+}
 
 // A common error structure included in OpenAI API response bodies.
 type ResponseError struct {
@@ -117,13 +122,29 @@ func makeRequest[ResponseT any](req *http.Request) (*ResponseT, error) {
 		return nil, errors.New("unable to parse response body")
 	}
 
-	response := new(ResponseT)
-	err = json.Unmarshal(respBody, response)
+	var response ResponseT
+	if _, ok := any(response).([]byte); ok {
+		// Special case for handling binary return types.
+		// Defer to the caller to do what they will with
+		// the response.
+		v := reflect.ValueOf(&response).Elem()
+		v.Set(reflect.MakeSlice(v.Type(), len(respBody), cap(respBody)))
+		v.SetBytes(respBody)
+
+		respErr := responseErrorWrapper{}
+		json.Unmarshal(respBody, &respErr)
+		if respErr.Error != nil {
+			return &response, respErr.Error
+		}
+		return &response, nil
+	}
+
+	err = json.Unmarshal(respBody, &response)
 	if err != nil {
 		return nil, err
 	}
 
-	return response, nil
+	return &response, nil
 }
 
 func IsUrl(str string) bool {

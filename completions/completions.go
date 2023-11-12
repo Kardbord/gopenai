@@ -107,6 +107,12 @@ type Request struct {
 
 	// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
 	User string `json:"user,omitempty"`
+
+	// If specified, our system will make a best effort to sample deterministically, such that repeated
+	// requests with the same seed and parameters should return the same result. Determinism is not
+	// guaranteed, and you should refer to the system_fingerprint response parameter to monitor changes
+	// in the backend.
+	Seed *int64 `json:"seed,omitempty"`
 }
 
 // Response structure for the  completions API endpoint.
@@ -126,8 +132,9 @@ type Response struct {
 			TextOffset    []uint64             `json:"text_offset"`
 		} `json:"logprobs"`
 	} `json:"choices"`
-	Usage common.ResponseUsage  `json:"usage"`
-	Error *common.ResponseError `json:"error,omitempty"`
+	SystemFingerprint string                `json:"system_fingerprint"`
+	Usage             common.ResponseUsage  `json:"usage"`
+	Error             *common.ResponseError `json:"error,omitempty"`
 }
 
 // Make a completions request.

@@ -1,11 +1,13 @@
 package audio_test
 
 import (
+	"errors"
 	"os"
 	"testing"
 
 	"github.com/TannerKvarfordt/gopenai/audio"
 	"github.com/TannerKvarfordt/gopenai/authentication"
+	"github.com/TannerKvarfordt/gopenai/common"
 )
 
 const (
@@ -22,8 +24,9 @@ func init() {
 
 func TestTranscription(t *testing.T) {
 	resp, err := audio.MakeTranscriptionRequest(&audio.TranscriptionRequest{
-		File:  transcriptionFilePath,
-		Model: model,
+		File:     transcriptionFilePath,
+		Model:    model,
+		Language: "en",
 	}, nil)
 	if err != nil {
 		t.Fatal(err)
@@ -47,5 +50,38 @@ func TestTranslation(t *testing.T) {
 	if resp.Text == "" {
 		t.Fatal("no translation returned")
 		return
+	}
+}
+
+func TestSpeech(t *testing.T) {
+	resp, err := audio.MakeSpeechRequest(&audio.SpeechRequest{
+		Model:          "tts-1",
+		Input:          "The quick brown fox jumps over the lazy dog.",
+		Voice:          audio.VoiceAlloy,
+		ResponseFormat: audio.SpeechFormatMp3,
+	}, nil)
+	if err != nil {
+		t.Fatal(err)
+		return
+	}
+	if len(resp) == 0 {
+		t.Fatal("No audio returned")
+		return
+	}
+}
+
+func TestInvalidSpeechRequest(t *testing.T) {
+	_, err := audio.MakeSpeechRequest(&audio.SpeechRequest{
+		Model:          "",
+		Input:          "The quick brown fox jumps over the lazy dog.",
+		ResponseFormat: audio.SpeechFormatMp3,
+	}, nil)
+	if err == nil {
+		t.Fatal("Expected to receive an invalid request error")
+		return
+	}
+	respErr := new(common.ResponseError)
+	if !errors.As(err, &respErr) {
+		t.Fatal("Expected error to be of type common.ResponseError")
 	}
 }
