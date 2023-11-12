@@ -1,3 +1,5 @@
+// Deprecated: Replaced by GPT-3.5 Turbo. See https://community.openai.com/t/openai-deprecation-summary/289539
+//
 // Package edits provides bindings for the [edits] [endpoint].
 // Given a prompt and an instruction, the model will return
 // an edited version of the prompt.
