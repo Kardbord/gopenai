@@ -12,10 +12,11 @@ The links below lead to examples of how to use each library package.
 - [x] [Audio](./audio/README.md)
 - [x] [Chat](./chat/README.md)
 - [x] [Completions](./completions/README.md)
-- [x] [Edits](./edits/README.md)
+- [x] ~~[Edits](./edits/README.md)~~ (Deprecated)
 - [x] [Embeddings](./embeddings/README.md)
+- [] Fine-Tuning
 - [x] [Files](./files/README.md)
-- [x] [Fine-Tunes](./finetunes/README.md) (Additional Testing Needed)
+- [x] ~~[Fine-Tunes](./finetunes/README.md)~~ (Deprecated)
 - [x] [Images](./images/README.md)
 - [x] [Models](./models/README.md)
 - [x] [Moderations](./moderations/README.md)
