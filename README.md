@@ -14,7 +14,7 @@ The links below lead to examples of how to use each library package.
 - [x] [Completions](./completions/README.md)
 - [x] ~~[Edits](./edits/README.md)~~ (Deprecated)
 - [x] [Embeddings](./embeddings/README.md)
-- [] Fine-Tuning
+- [ ] Fine-Tuning
 - [x] [Files](./files/README.md)
 - [x] ~~[Fine-Tunes](./finetunes/README.md)~~ (Deprecated)
 - [x] [Images](./images/README.md)
