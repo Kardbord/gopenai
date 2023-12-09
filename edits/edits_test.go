@@ -4,8 +4,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/TannerKvarfordt/gopenai/authentication"
-	"github.com/TannerKvarfordt/gopenai/edits"
+	"github.com/Kardbord/gopenai/authentication"
+	"github.com/Kardbord/gopenai/edits"
 	_ "github.com/joho/godotenv/autoload"
 )
 

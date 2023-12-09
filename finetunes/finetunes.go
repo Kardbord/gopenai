@@ -14,9 +14,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/TannerKvarfordt/gopenai/common"
-	"github.com/TannerKvarfordt/gopenai/files"
-	"github.com/TannerKvarfordt/gopenai/models"
+	"github.com/Kardbord/gopenai/common"
+	"github.com/Kardbord/gopenai/files"
+	"github.com/Kardbord/gopenai/models"
 )
 
 const Endpoint = common.BaseURL + "fine-tunes"

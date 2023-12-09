@@ -5,9 +5,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/TannerKvarfordt/gopenai/audio"
-	"github.com/TannerKvarfordt/gopenai/authentication"
-	"github.com/TannerKvarfordt/gopenai/common"
+	"github.com/Kardbord/gopenai/audio"
+	"github.com/Kardbord/gopenai/authentication"
+	"github.com/Kardbord/gopenai/common"
 )
 
 const (

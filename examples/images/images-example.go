@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/TannerKvarfordt/gopenai/authentication"
-	"github.com/TannerKvarfordt/gopenai/images"
+	"github.com/Kardbord/gopenai/authentication"
+	"github.com/Kardbord/gopenai/images"
 	_ "github.com/joho/godotenv/autoload"
 )
 
@@ -23,7 +23,7 @@ func create(model, size string) (*images.Response, error) {
 	resp, _, err := images.MakeModeratedCreationRequest(&images.CreationRequest{
 		Prompt: prompt,
 		Size:   size,
-		User:   "https://github.com/TannerKvarfordt/gopenai",
+		User:   "https://github.com/Kardbord/gopenai",
 		Model:  model,
 	}, nil)
 	if err != nil {
@@ -41,7 +41,7 @@ func variation(imagename, image string) error {
 		Image:     image,
 		ImageName: imagename,
 		Size:      images.Dalle2SmallImage,
-		User:      "https://github.com/TannerKvarfordt/gopenai",
+		User:      "https://github.com/Kardbord/gopenai",
 	}, nil)
 	if err != nil {
 		return err

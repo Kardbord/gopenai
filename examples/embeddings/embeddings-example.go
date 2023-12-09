@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/TannerKvarfordt/gopenai/authentication"
-	"github.com/TannerKvarfordt/gopenai/embeddings"
+	"github.com/Kardbord/gopenai/authentication"
+	"github.com/Kardbord/gopenai/embeddings"
 	_ "github.com/joho/godotenv/autoload"
 )
 
@@ -21,7 +21,7 @@ func main() {
 	resp, _, err := embeddings.MakeModeratedRequest(&embeddings.Request{
 		Model: "text-embedding-ada-002",
 		Input: []string{input},
-		User:  "https://github.com/TannerKvarfordt/gopenai",
+		User:  "https://github.com/Kardbord/gopenai",
 	}, nil)
 	if err != nil {
 		fmt.Println(err)

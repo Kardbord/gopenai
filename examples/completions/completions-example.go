@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/TannerKvarfordt/gopenai/authentication"
-	"github.com/TannerKvarfordt/gopenai/completions"
+	"github.com/Kardbord/gopenai/authentication"
+	"github.com/Kardbord/gopenai/completions"
 	_ "github.com/joho/godotenv/autoload"
 )
 
@@ -26,7 +26,7 @@ func main() {
 		PresencePenalty:  0.0,
 		FrequencyPenalty: 0.0,
 		BestOf:           nil,
-		User:             "https://github.com/TannerKvarfordt/gopenai",
+		User:             "https://github.com/Kardbord/gopenai",
 	}, nil)
 	if err != nil {
 		fmt.Println(err)

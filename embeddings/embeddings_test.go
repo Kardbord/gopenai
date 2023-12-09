@@ -4,8 +4,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/TannerKvarfordt/gopenai/authentication"
-	"github.com/TannerKvarfordt/gopenai/embeddings"
+	"github.com/Kardbord/gopenai/authentication"
+	"github.com/Kardbord/gopenai/embeddings"
 	_ "github.com/joho/godotenv/autoload"
 )
 
@@ -21,7 +21,7 @@ func TestEmbeddings(t *testing.T) {
 	resp, err := embeddings.MakeRequest(&embeddings.Request{
 		Model: "text-embedding-ada-002",
 		Input: []string{input},
-		User:  "https://github.com/TannerKvarfordt/gopenai",
+		User:  "https://github.com/Kardbord/gopenai",
 	}, nil)
 	if err != nil {
 		t.Fatal(err)

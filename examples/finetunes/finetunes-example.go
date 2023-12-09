@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/TannerKvarfordt/gopenai/authentication"
-	"github.com/TannerKvarfordt/gopenai/finetunes"
+	"github.com/Kardbord/gopenai/authentication"
+	"github.com/Kardbord/gopenai/finetunes"
 	_ "github.com/joho/godotenv/autoload"
 )
 

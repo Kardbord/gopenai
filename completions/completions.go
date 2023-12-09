@@ -10,8 +10,8 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/TannerKvarfordt/gopenai/common"
-	"github.com/TannerKvarfordt/gopenai/moderations"
+	"github.com/Kardbord/gopenai/common"
+	"github.com/Kardbord/gopenai/moderations"
 )
 
 // The completions API endpoint.

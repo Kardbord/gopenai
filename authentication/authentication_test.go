@@ -3,7 +3,7 @@ package authentication_test
 import (
 	"testing"
 
-	"github.com/TannerKvarfordt/gopenai/authentication"
+	"github.com/Kardbord/gopenai/authentication"
 )
 
 func TestAuthentication(t *testing.T) {

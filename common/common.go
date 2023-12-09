@@ -14,7 +14,7 @@ import (
 	"reflect"
 	"strings"
 
-	auth "github.com/TannerKvarfordt/gopenai/authentication"
+	auth "github.com/Kardbord/gopenai/authentication"
 )
 
 const (

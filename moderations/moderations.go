@@ -8,7 +8,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/TannerKvarfordt/gopenai/common"
+	"github.com/Kardbord/gopenai/common"
 )
 
 // The moderations API endpoint.

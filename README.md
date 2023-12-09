@@ -1,9 +1,9 @@
 # gopenai
 
-[![Unit Tests](https://github.com/TannerKvarfordt/gopenai/actions/workflows/unit-tests.yml/badge.svg?branch=main)](https://github.com/TannerKvarfordt/gopenai/actions/workflows/unit-tests.yml)
-[![CodeQL](https://github.com/TannerKvarfordt/gopenai/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/TannerKvarfordt/gopenai/actions/workflows/codeql.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/TannerKvarfordt/gopenai)](https://goreportcard.com/report/github.com/TannerKvarfordt/gopenai)
-[![Go Reference](https://pkg.go.dev/badge/github.com/TannerKvarfordt/gopenai.svg)](https://pkg.go.dev/github.com/TannerKvarfordt/gopenai)
+[![Unit Tests](https://github.com/Kardbord/gopenai/actions/workflows/unit-tests.yml/badge.svg?branch=main)](https://github.com/Kardbord/gopenai/actions/workflows/unit-tests.yml)
+[![CodeQL](https://github.com/Kardbord/gopenai/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/Kardbord/gopenai/actions/workflows/codeql.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Kardbord/gopenai)](https://goreportcard.com/report/github.com/Kardbord/gopenai)
+[![Go Reference](https://pkg.go.dev/badge/github.com/Kardbord/gopenai.svg)](https://pkg.go.dev/github.com/Kardbord/gopenai)
 
 Go (Golang) bindings for the [OpenAI API](https://beta.openai.com/docs/api-reference/introduction). This library is community maintained and unofficial.
 

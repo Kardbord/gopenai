@@ -6,8 +6,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/TannerKvarfordt/gopenai/authentication"
-	"github.com/TannerKvarfordt/gopenai/images"
+	"github.com/Kardbord/gopenai/authentication"
+	"github.com/Kardbord/gopenai/images"
 	_ "github.com/joho/godotenv/autoload"
 )
 
@@ -25,7 +25,7 @@ func create(model, size string) (*images.Response, error) {
 	resp, err := images.MakeCreationRequest(&images.CreationRequest{
 		Prompt: prompt,
 		Size:   size,
-		User:   "https://github.com/TannerKvarfordt/gopenai",
+		User:   "https://github.com/Kardbord/gopenai",
 		Model:  model,
 	}, nil)
 	if err != nil {
@@ -46,7 +46,7 @@ func variation(model, imagename, image string) error {
 		Image:     image,
 		ImageName: imagename,
 		Size:      images.Dalle2SmallImage,
-		User:      "https://github.com/TannerKvarfordt/gopenai",
+		User:      "https://github.com/Kardbord/gopenai",
 		Model:     model,
 	}, nil)
 	if err != nil {

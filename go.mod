@@ -1,4 +1,4 @@
-module github.com/TannerKvarfordt/gopenai
+module github.com/Kardbord/gopenai
 
 go 1.19
 

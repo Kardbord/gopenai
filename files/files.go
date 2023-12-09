@@ -15,7 +15,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/TannerKvarfordt/gopenai/common"
+	"github.com/Kardbord/gopenai/common"
 )
 
 const Endpoint = common.BaseURL + "files"

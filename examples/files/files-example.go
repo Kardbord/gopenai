@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/TannerKvarfordt/gopenai/authentication"
-	"github.com/TannerKvarfordt/gopenai/files"
+	"github.com/Kardbord/gopenai/authentication"
+	"github.com/Kardbord/gopenai/files"
 	_ "github.com/joho/godotenv/autoload"
 )
 

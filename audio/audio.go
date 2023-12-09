@@ -13,7 +13,7 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/TannerKvarfordt/gopenai/common"
+	"github.com/Kardbord/gopenai/common"
 )
 
 const (

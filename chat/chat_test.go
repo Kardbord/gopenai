@@ -4,8 +4,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/TannerKvarfordt/gopenai/authentication"
-	"github.com/TannerKvarfordt/gopenai/chat"
+	"github.com/Kardbord/gopenai/authentication"
+	"github.com/Kardbord/gopenai/chat"
 )
 
 const OpenAITokenEnv = "OPENAI_API_KEY"
@@ -24,7 +24,7 @@ func TestChat(t *testing.T) {
 				Content: "Hello!",
 			},
 		},
-		User: "https://github.com/TannerKvarfordt/gopenai",
+		User: "https://github.com/Kardbord/gopenai",
 	}, nil)
 	if err != nil {
 		t.Fatal(err)

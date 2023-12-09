@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/TannerKvarfordt/gopenai/audio"
-	"github.com/TannerKvarfordt/gopenai/authentication"
+	"github.com/Kardbord/gopenai/audio"
+	"github.com/Kardbord/gopenai/authentication"
 )
 
 const OpenAITokenEnv = "OPENAI_API_KEY"
