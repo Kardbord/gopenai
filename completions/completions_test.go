@@ -18,7 +18,7 @@ func init() {
 
 func TestCompletions(t *testing.T) {
 	resp, err := completions.MakeRequest(&completions.Request{
-		Model:            "text-ada-001",
+		Model:            "gpt-3.5-turbo-instruct",
 		Prompt:           []string{"So long, and thanks for all the"},
 		MaxTokens:        5,
 		Echo:             true,
