@@ -29,7 +29,7 @@ examples/chat/chat
 examples/completions/completions
 examples/embeddings/embeddings
 examples/files/files
-examples/finetunes/finetunes
+examples/finetuning/finetuning
 examples/images/images
 examples/models/models
 examples/moderations/moderations
