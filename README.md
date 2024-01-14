@@ -12,7 +12,6 @@ The links below lead to examples of how to use each library package.
 - [x] [Audio](./audio/README.md)
 - [x] [Chat](./chat/README.md)
 - [x] [Completions](./completions/README.md)
-- [x] ~~[Edits](./edits/README.md)~~ (Deprecated)
 - [x] [Embeddings](./embeddings/README.md)
 - [ ] Fine-Tuning
 - [x] [Files](./files/README.md)

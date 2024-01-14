@@ -27,7 +27,6 @@ dist/
 examples/audio/audio
 examples/chat/chat
 examples/completions/completions
-examples/edits/edits
 examples/embeddings/embeddings
 examples/files/files
 examples/finetunes/finetunes
