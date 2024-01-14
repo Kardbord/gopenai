@@ -33,8 +33,12 @@ type responseErrorWrapper struct {
 type ResponseError struct {
 	// The error message.
 	Message string `json:"message"`
+
 	// The error type.
 	Type string `json:"type"`
+
+	// The parameter that was invalid.
+	Param string `json:"param"`
 }
 
 func (e *ResponseError) Error() string {

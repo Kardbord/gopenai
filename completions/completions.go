@@ -1,3 +1,4 @@
+// Deprecated: Replaced by Chat Completions. See https://platform.openai.com/docs/api-reference/completions.
 // Package completions provides bindings for the [completions] [endpoint].
 // Given a prompt, the model will return one or more predicted completions,
 // and can also return the probabilities of alternative tokens at each position.

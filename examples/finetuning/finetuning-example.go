@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/Kardbord/gopenai/authentication"
-	"github.com/Kardbord/gopenai/finetunes"
+	"github.com/Kardbord/gopenai/finetuning"
 	_ "github.com/joho/godotenv/autoload"
 )
 
@@ -19,7 +19,7 @@ func init() {
 func main() {
 	// TODO: build a more comprehensive example of how to use this endpoint.
 
-	resp, err := finetunes.MakeListRequest(nil)
+	resp, err := finetuning.MakeListRequest(nil, nil, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
