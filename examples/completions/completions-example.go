@@ -19,7 +19,7 @@ func init() {
 func main() {
 	prompt := "So long, and thanks for all the"
 	resp, _, err := completions.MakeModeratedRequest(&completions.Request{
-		Model:            "text-ada-001",
+		Model:            "gpt-3.5-turbo-instruct",
 		Prompt:           []string{prompt},
 		MaxTokens:        5,
 		Echo:             true,
