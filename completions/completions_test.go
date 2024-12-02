@@ -21,10 +21,9 @@ func TestCompletions(t *testing.T) {
 		Model:            "gpt-3.5-turbo-instruct",
 		Prompt:           []string{"So long, and thanks for all the"},
 		MaxTokens:        5,
-		Echo:             true,
+		Echo:             false,
 		PresencePenalty:  0.0,
 		FrequencyPenalty: 0.0,
-		BestOf:           nil,
 		User:             "https://github.com/Kardbord/gopenai",
 	}, nil)
 	if err != nil {
